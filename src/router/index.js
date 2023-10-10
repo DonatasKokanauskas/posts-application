@@ -8,7 +8,7 @@ Vue.use(VueRouter);
 
 const routes = [
     { path: "/", component: PostsPage },
-    { path: "/postsDetailPage", component: PostsDetailPage },
+    { path: "/postsDetailPage/:id", component: PostsDetailPage },
     { path: "*", component: Page404 },
 ];
 

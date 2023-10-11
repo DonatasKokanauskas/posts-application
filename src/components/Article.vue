@@ -15,7 +15,7 @@ export default {
             const date2 = new Date(this.updatedDate).getTime();
 
             if (date1 > date2) {
-                return new Date(date1).toLocaleString("en-US").slice(0, 11);
+                return new Date(date1).toLocaleString("lt-LT").slice(0, 11);
             } else {
                 return new Date(date2).toLocaleString("lt-LT").slice(0, 11);
             }

@@ -1,14 +1,20 @@
 <template>
     <div>
         <h1>Posts page</h1>
-        <Article
-            v-for="article in articlesData"
-            :key="article.id"
-            :title="article.title"
-            :author="authorName(article.authorId)"
-            :createdDate="article.created_at"
-            :updatedDate="article.updated_at"
-        ></Article>
+        <div v-if="articlesData">
+            <Article
+                v-for="article in articlesData"
+                :key="article.id"
+                :id="article.id"
+                :title="article.title"
+                :author="authorName(article.authorId)"
+                :createdDate="article.created_at"
+                :updatedDate="article.updated_at"
+            ></Article>
+        </div>
+        <div v-else>
+            <h1>There are no articles</h1>
+        </div>
     </div>
 </template>
 
@@ -35,10 +41,10 @@ export default {
     },
     created() {
         this.$store.dispatch("fetchAuthorsData").then(() => {
-            this.authorsData = this.$store.state.authorsModule.authorsData;
+            this.authorsData = this.$store.getters.authorsGetter;
         });
         this.$store.dispatch("fetchArticlesData").then(() => {
-            this.articlesData = this.$store.state.articlesModule.articlesData;
+            this.articlesData = this.$store.getters.articlesGetter;
         });
     },
 };

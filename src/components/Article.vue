@@ -2,24 +2,32 @@
     <li>
         <h3>Title: {{ title }}</h3>
         <h3>Author: {{ author }}</h3>
-        <h3>Date: {{ showCreatedOrEditedDate }}</h3>
+        <h3>Date: {{ articleDate }}</h3>
+        <button @click="navigateToDetailPage">More details</button>
     </li>
 </template>
 
 <script>
 export default {
-    props: ["title", "author", "createdDate", "updatedDate"],
-    computed: {
-        showCreatedOrEditedDate() {
-            const date1 = new Date(this.createdDate).getTime();
-            const date2 = new Date(this.updatedDate).getTime();
-
-            if (date1 > date2) {
-                return new Date(date1).toLocaleString("lt-LT").slice(0, 11);
-            } else {
-                return new Date(date2).toLocaleString("lt-LT").slice(0, 11);
-            }
+    props: ["title", "author", "createdDate", "updatedDate", "id"],
+    data() {
+        return {
+            articleDate: null,
+        };
+    },
+    methods: {
+        navigateToDetailPage() {
+            this.$router.push({ path: "/postsDetailPage/" + this.id });
         },
+    },
+    created() {
+        const dateObject = {
+            created: this.createdDate,
+            updated: this.updatedDate,
+        };
+
+        this.$store.dispatch("showCreatedOrEditedDate", dateObject);
+        this.articleDate = this.$store.getters.articleDateGetter;
     },
 };
 </script>

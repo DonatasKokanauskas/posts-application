@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue2": "^2.2.0",
+    "axios": "^1.5.1",
     "jsdom": "^21.1.0",
     "json-server": "^0.17.4",
     "vite": "^4.0.4",

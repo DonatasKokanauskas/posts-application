@@ -2,7 +2,7 @@
     <div v-if="articleData">
         <h1>More details about article</h1>
         <h2>Title: {{ articleData[0].title }}</h2>
-        <h2>Author: {{ authorName(articleData[0].authorId) }}</h2>
+        <h2>Author: {{ authorName }}</h2>
         <h2>Article content: {{ articleData[0].body }}</h2>
         <h2>Date: {{ articleDate }}</h2>
     </div>
@@ -14,7 +14,8 @@ export default {
         return {
             articleData: null,
             articleDate: null,
-            authorsData: null,
+            authorsData: [],
+            authorName: "",
         };
     },
     methods: {
@@ -25,13 +26,6 @@ export default {
             };
             this.$store.dispatch("showCreatedOrEditedDate", dateObject);
             this.articleDate = this.$store.getters.articleDateGetter;
-            console.log(this.articleDate);
-        },
-        authorName(authorId) {
-            const name = this.authorsData.filter((author) => {
-                return author.id === authorId;
-            });
-            return name[0].name;
         },
     },
     created() {
@@ -42,14 +36,17 @@ export default {
                     return article.id == postId;
                 }
             );
-            console.log(postId);
-            console.log(this.articleData[0]);
 
             this.displayDate();
-        });
 
-        this.$store.dispatch("fetchAuthorsData").then(() => {
-            this.authorsData = this.$store.getters.authorsGetter;
+            this.$store.dispatch("fetchAuthorsData").then(() => {
+                this.authorsData = this.$store.getters.authorsGetter;
+                this.$store
+                    .dispatch("authorName", this.articleData[0].authorId)
+                    .then(() => {
+                        this.authorName = this.$store.getters.authorNameGetter;
+                    });
+            });
         });
     },
 };

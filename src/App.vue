@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <router-link to="/">Home</router-link>
+        <router-link to="/"><button type="button">Home</button></router-link>
+
         <router-view></router-view>
     </div>
 </template>
@@ -15,4 +16,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+a {
+    text-decoration: none;
+}
+button {
+    cursor: pointer;
+}
+</style>

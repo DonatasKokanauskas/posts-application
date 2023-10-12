@@ -1,7 +1,7 @@
 <template>
     <li>
         <h3>Title: {{ title }}</h3>
-        <h3>Author: {{ author }}</h3>
+        <h3>Author: {{ authorName }}</h3>
         <h3>Date: {{ articleDate }}</h3>
         <button @click="navigateToDetailPage">More details</button>
     </li>
@@ -9,10 +9,11 @@
 
 <script>
 export default {
-    props: ["title", "author", "createdDate", "updatedDate", "id"],
+    props: ["title", "authorId", "createdDate", "updatedDate", "id"],
     data() {
         return {
             articleDate: null,
+            authorName: "",
         };
     },
     methods: {
@@ -28,6 +29,9 @@ export default {
 
         this.$store.dispatch("showCreatedOrEditedDate", dateObject);
         this.articleDate = this.$store.getters.articleDateGetter;
+
+        this.$store.dispatch("authorName", this.authorId);
+        this.authorName = this.$store.getters.authorNameGetter;
     },
 };
 </script>

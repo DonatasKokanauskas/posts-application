@@ -7,7 +7,7 @@
                 :key="article.id"
                 :id="article.id"
                 :title="article.title"
-                :author="authorName(article.authorId)"
+                :authorId="article.authorId"
                 :createdDate="article.created_at"
                 :updatedDate="article.updated_at"
             ></Article>
@@ -31,20 +31,14 @@ export default {
             authorsData: [],
         };
     },
-    methods: {
-        authorName(authorId) {
-            const name = this.authorsData.filter((author) => {
-                return author.id === authorId;
-            });
-            return name[0].name;
-        },
-    },
+    methods: {},
     created() {
         this.$store.dispatch("fetchAuthorsData").then(() => {
             this.authorsData = this.$store.getters.authorsGetter;
-        });
-        this.$store.dispatch("fetchArticlesData").then(() => {
-            this.articlesData = this.$store.getters.articlesGetter;
+
+            this.$store.dispatch("fetchArticlesData").then(() => {
+                this.articlesData = this.$store.getters.articlesGetter;
+            });
         });
     },
 };

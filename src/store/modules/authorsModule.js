@@ -28,9 +28,9 @@ const authorsModule = {
             const name = context.getters.authorsGetter.filter((author) => {
                 return author.id === authorId;
             });
-            console.log(name[0].name);
+            // console.log(name[0].name);
             context.commit("setAuthorName", name[0].name);
-            return context.getters.authorNameGetter;
+            // return context.getters.authorNameGetter;
         },
     },
     getters: {

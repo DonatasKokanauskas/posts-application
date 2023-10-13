@@ -5,6 +5,24 @@
         <h2>Author: {{ authorName }}</h2>
         <h2>Article content: {{ articleData[0].body }}</h2>
         <h2>Date: {{ articleDate }}</h2>
+        <notification-modal
+            v-if="isModalVisible"
+            @closeModal="isModalVisible = false"
+        >
+            <template #message
+                >Are you sure that you want to delete "{{
+                    articleData[0].title
+                }}" article?</template
+            >
+            <template #buttonForArticleDelete>
+                <article-delete-button
+                    @click.native="deleteArticle(articleData[0].id)"
+                ></article-delete-button>
+            </template>
+        </notification-modal>
+        <article-delete-button
+            @click.native="isModalVisible = true"
+        ></article-delete-button>
     </div>
 </template>
 
@@ -16,6 +34,7 @@ export default {
             articleDate: null,
             authorsData: [],
             authorName: "",
+            isModalVisible: false,
         };
     },
     methods: {
@@ -26,6 +45,10 @@ export default {
             };
             this.$store.dispatch("showCreatedOrEditedDate", dateObject);
             this.articleDate = this.$store.getters.articleDateGetter;
+        },
+        deleteArticle(id) {
+            this.$store.dispatch("deleteArticleAction", id);
+            this.$router.push({ path: "/" });
         },
     },
     created() {

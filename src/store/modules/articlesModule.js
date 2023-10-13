@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const articlesModule = {
     state() {
         return {
@@ -38,6 +40,15 @@ const articlesModule = {
                     .toLocaleString("lt-LT")
                     .slice(0, 11);
                 commit("setDate", date);
+            }
+        },
+        async deleteArticleAction(_, articleIdToDelete) {
+            try {
+                await axios.delete(
+                    `http://localhost:3000/posts/${articleIdToDelete}`
+                );
+            } catch (error) {
+                console.log("There was an error", error);
             }
         },
     },

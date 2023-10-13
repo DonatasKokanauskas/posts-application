@@ -29,6 +29,8 @@ export default {
     height: 100vh;
     width: 100vw;
     position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,18 +46,10 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 0 30px;
 }
-.notification__window .delete-button {
-    background-color: rgb(199, 0, 0);
-    border: none;
-    border-radius: 5px;
-    padding: 7px 15px;
-    color: white;
-    font-weight: bold;
-}
-
-.notification__window .delete-button:hover {
-    background-color: rgb(140, 0, 0);
+.notification__window h1 {
+    margin: 40px 0;
 }
 
 .notification__window__close-button {

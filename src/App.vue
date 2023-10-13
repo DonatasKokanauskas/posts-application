@@ -1,7 +1,6 @@
 <template>
     <div id="app">
         <router-link to="/"><button type="button">Home</button></router-link>
-
         <router-view></router-view>
     </div>
 </template>
@@ -17,6 +16,12 @@ export default {
 </script>
 
 <style>
+body {
+    font-family: sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 a {
     text-decoration: none;
 }

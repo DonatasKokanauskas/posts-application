@@ -17,7 +17,7 @@
 export default {
     methods: {
         closeModal() {
-            this.$emit("closeModal", false);
+            this.$emit("closeModal");
         },
     },
 };
@@ -46,12 +46,16 @@ export default {
     flex-direction: column;
 }
 .notification__window .delete-button {
-    background-color: rgb(140, 0, 0);
+    background-color: rgb(199, 0, 0);
     border: none;
     border-radius: 5px;
     padding: 7px 15px;
     color: white;
     font-weight: bold;
+}
+
+.notification__window .delete-button:hover {
+    background-color: rgb(140, 0, 0);
 }
 
 .notification__window__close-button {

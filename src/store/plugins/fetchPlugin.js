@@ -7,6 +7,7 @@ const fetchPlugin = (store) => {
             const data = response.data;
             store.commit(mutation, data);
         } catch (error) {
+            throw new Error();
             console.log("There was an error", error);
         }
     };

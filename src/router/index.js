@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import PostsPage from "../views/PostsPage.vue";
 import PostsDetailPage from "../views/PostDetailPage.vue";
-import Page404 from "../components/Page404.vue";
+import Page404 from "../views/Page404.vue";
 
 Vue.use(VueRouter);
 

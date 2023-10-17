@@ -14,6 +14,44 @@ const store = new Vuex.Store({
         modalModule,
     },
     plugins: [fetchPlugin],
+    state() {
+        return {
+            apiURL: "http://localhost:3000",
+            errorNotificationIsVisible: null,
+            successNotificationIsVisible: null,
+        };
+    },
+    mutations: {
+        setErrorNotification(state, notification) {
+            state.errorNotificationIsVisible = notification;
+        },
+        setSuccessNotification(state, notification) {
+            state.successNotificationIsVisible = notification;
+        },
+    },
+    actions: {
+        notificationAction({ commit }, notification) {
+            if (notification.type === "error") {
+                commit("setErrorNotification", notification);
+                setTimeout(() => {
+                    commit("setErrorNotification", null);
+                }, 3000);
+            } else {
+                commit("setSuccessNotification", notification);
+                setTimeout(() => {
+                    commit("setSuccessNotification", null);
+                }, 3000);
+            }
+        },
+    },
+    getters: {
+        errorNotificationGetter(state) {
+            return state.errorNotificationIsVisible;
+        },
+        successNotificationGetter(state) {
+            return state.successNotificationIsVisible;
+        },
+    },
 });
 
 export default store;

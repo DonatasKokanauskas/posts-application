@@ -13,17 +13,16 @@ const authorsModule = {
         },
     },
     actions: {
-        async fetchAuthorsData() {
+        async fetchAuthorsData({ commit, rootState }) {
             try {
-                await this.fetchData(
-                    "http://localhost:3000/authors",
-                    "setAuthorsData"
+                const data = await this.fetchData(
+                    rootState.apiURL + "/authors"
                 );
+                commit("setAuthorsData", data);
             } catch (error) {
-                console.log("There was an error", error);
+                console.log(`There was an error", ${error.message}.`);
             }
         },
-
         authorName(context, authorId) {
             const name = context.getters.authorsGetter.filter((author) => {
                 return author.id === authorId;

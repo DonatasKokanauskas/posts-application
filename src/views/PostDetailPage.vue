@@ -1,28 +1,28 @@
 <template>
-    <div v-if="articleData">
-        <h1>More details about article</h1>
-        <h2>Title: {{ articleData[0].title }}</h2>
-        <h2>Author: {{ authorName }}</h2>
-        <h2>Article content: {{ articleData[0].body }}</h2>
-        <h2>Date: {{ articleDate }}</h2>
-        <notification-modal
-            v-if="isModalVisible"
-            @closeModal="isModalVisible = false"
-        >
-            <template #message
-                >Are you sure that you want to delete "{{
-                    articleData[0].title
-                }}" article?</template
+    <div>
+        <div v-if="articleData">
+            <h1>More details about article</h1>
+            <h2>Title: {{ articleData[0].title }}</h2>
+            <h2>Author: {{ authorName }}</h2>
+            <h2>Article content: {{ articleData[0].body }}</h2>
+            <h2>Date: {{ articleDate }}</h2>
+            <article-delete-button
+                @click.native="isModalVisible = true"
+            ></article-delete-button>
+            <delete-verification-modal
+                v-if="isModalVisible"
+                @closeModal="isModalVisible = false"
+                :id="articleData[0].id"
+                >{{ articleData[0].title }}</delete-verification-modal
             >
-            <template #buttonForArticleDelete>
-                <article-delete-button
-                    @click.native="deleteArticle(articleData[0].id)"
-                ></article-delete-button>
-            </template>
-        </notification-modal>
-        <article-delete-button
-            @click.native="isModalVisible = true"
-        ></article-delete-button>
+        </div>
+        <div v-else>
+            <h1>There are no article data</h1>
+            <popup-notification v-if="showNotification" class="error"
+                >There was a problem getting the data. Please try again
+                later.</popup-notification
+            >
+        </div>
     </div>
 </template>
 
@@ -46,14 +46,18 @@ export default {
             this.$store.dispatch("showCreatedOrEditedDate", dateObject);
             this.articleDate = this.$store.getters.articleDateGetter;
         },
-        deleteArticle(id) {
-            this.$store.dispatch("deleteArticleAction", id);
-            this.$router.push({ path: "/" });
+    },
+    computed: {
+        showNotification() {
+            return this.$store.getters.notificationGetter;
         },
     },
     created() {
         this.$store.dispatch("fetchArticlesData").then(() => {
             const postId = this.$route.params.id;
+            if (!this.$store.getters.articlesGetter) {
+                this.$store.dispatch("notificationAction");
+            }
             this.articleData = this.$store.getters.articlesGetter.filter(
                 (article) => {
                     return article.id == postId;

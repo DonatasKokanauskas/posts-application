@@ -6,20 +6,12 @@
             <h3>Date: {{ articleDate }}</h3>
             <button @click="navigateToDetailPage">More details</button>
         </div>
-        <notification-modal
+        <delete-verification-modal
             v-if="isModalVisible"
             @closeModal="isModalVisible = false"
-        >
-            <template #message
-                >Are you sure that you want to delete "{{ title }}"
-                article?</template
-            >
-            <template #buttonForArticleDelete>
-                <article-delete-button
-                    @click.native="deleteArticle(id)"
-                ></article-delete-button>
-            </template>
-        </notification-modal>
+            :id="id"
+            >{{ title }}
+        </delete-verification-modal>
         <article-delete-button
             @click.native="isModalVisible = true"
         ></article-delete-button>
@@ -28,14 +20,7 @@
 
 <script>
 export default {
-    props: [
-        "title",
-        "authorId",
-        "createdDate",
-        "updatedDate",
-        "id",
-        "articles",
-    ],
+    props: ["title", "authorId", "createdDate", "updatedDate", "id"],
     data() {
         return {
             articleDate: null,
@@ -47,12 +32,8 @@ export default {
         navigateToDetailPage() {
             this.$router.push({ path: "/postsDetailPage/" + this.id });
         },
-        deleteArticle(id) {
-            this.$store.dispatch("deleteArticleAction", id);
-            this.$emit("updateArticlesList");
-            this.isModalVisible = false;
-        },
     },
+    computed: {},
     created() {
         const dateObject = {
             created: this.createdDate,

@@ -2,6 +2,16 @@
     <div id="app">
         <router-link to="/"><button type="button">Home</button></router-link>
         <router-view></router-view>
+        <popup-notification
+            v-if="showErrorNotification"
+            :class="showErrorNotification.type"
+            >{{ showErrorNotification.message }}</popup-notification
+        >
+        <popup-notification
+            v-if="showSuccessNotification"
+            :class="showSuccessNotification.type"
+            >{{ showSuccessNotification.message }}</popup-notification
+        >
     </div>
 </template>
 
@@ -12,6 +22,14 @@ export default {
     },
     components: {},
     methods: {},
+    computed: {
+        showErrorNotification() {
+            return this.$store.getters.errorNotificationGetter;
+        },
+        showSuccessNotification() {
+            return this.$store.getters.successNotificationGetter;
+        },
+    },
 };
 </script>
 
@@ -29,5 +47,11 @@ a {
 }
 button {
     cursor: pointer;
+}
+.success {
+    background-color: green;
+}
+.error {
+    background-color: rgb(184, 0, 0);
 }
 </style>

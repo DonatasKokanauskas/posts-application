@@ -7,19 +7,38 @@
             >
                 X
             </button>
-            <h1><slot name="message"></slot></h1>
-            <slot name="buttonForArticleDelete"></slot>
+            <h1>
+                Are you sure that you want to delete "<slot></slot>" article?
+            </h1>
+            <article-delete-button
+                @click.native="deleteArticle(id)"
+            ></article-delete-button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    props: ["id"],
     methods: {
         closeModal() {
             this.$emit("closeModal");
         },
+        deleteArticle(id) {
+            this.$store.dispatch("deleteArticleAction", id);
+            this.$store.dispatch("fetchArticlesData");
+
+            if (this.$router.currentRoute.fullPath !== "/") {
+                this.$router.push({ path: "/" });
+            }
+            const successNotification = {
+                type: "success",
+                message: "You have successfully deleted the article",
+            };
+            this.$store.dispatch("notificationAction", successNotification);
+        },
     },
+    computed: {},
 };
 </script>
 

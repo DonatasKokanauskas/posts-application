@@ -16,14 +16,12 @@ const articlesModule = {
         },
     },
     actions: {
-        async fetchArticlesData() {
+        async fetchArticlesData({ commit, rootState }) {
             try {
-                await this.fetchData(
-                    "http://localhost:3000/posts",
-                    "setArticlesData"
-                );
+                const data = await this.fetchData(rootState.apiURL + "/posts");
+                commit("setArticlesData", data);
             } catch (error) {
-                console.log("There was an error", error);
+                console.log(`There was an error", ${error.message}.`);
             }
         },
         showCreatedOrEditedDate({ commit }, dateObject) {
@@ -42,10 +40,10 @@ const articlesModule = {
                 commit("setDate", date);
             }
         },
-        async deleteArticleAction(_, articleIdToDelete) {
+        async deleteArticleAction({ rootState }, articleIdToDelete) {
             try {
                 await axios.delete(
-                    `http://localhost:3000/posts/${articleIdToDelete}`
+                    `${rootState.apiURL}/posts/${articleIdToDelete}`
                 );
             } catch (error) {
                 console.log("There was an error", error);

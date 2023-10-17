@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Posts page</h1>
-        <div v-if="articlesData.length > 0">
+        <div v-if="articlesData !== null && articlesData.length > 0">
             <Article
                 v-for="article in articlesData"
                 :key="article.id"
@@ -10,8 +10,6 @@
                 :authorId="article.authorId"
                 :createdDate="article.created_at"
                 :updatedDate="article.updated_at"
-                :articles="articlesData"
-                @updateArticlesList="updateArticlesList"
             ></Article>
         </div>
         <div v-else>
@@ -29,25 +27,34 @@ export default {
     },
     data() {
         return {
-            articlesData: [],
             authorsData: [],
         };
     },
-    methods: {
-        updateArticlesList() {
-            this.$store.dispatch("fetchArticlesData").then(() => {
-                this.articlesData = this.$store.getters.articlesGetter;
-                // !!!
-            });
+    methods: {},
+    computed: {
+        articlesData() {
+            return this.$store.getters.articlesGetter;
         },
+        // showNotification() {
+        //     return this.$store.getters.notificationGetter;
+        // },
     },
     created() {
         this.$store.dispatch("fetchAuthorsData").then(() => {
             this.authorsData = this.$store.getters.authorsGetter;
 
             this.$store.dispatch("fetchArticlesData").then(() => {
-                this.articlesData = this.$store.getters.articlesGetter;
-                // !!!
+                if (!this.articlesData) {
+                    const errorNotification = {
+                        type: "error",
+                        message:
+                            "There was a problem getting the data. Please try again later.",
+                    };
+                    this.$store.dispatch(
+                        "notificationAction",
+                        errorNotification
+                    );
+                }
             });
         });
     },

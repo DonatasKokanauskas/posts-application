@@ -4,12 +4,16 @@ const articlesModule = {
     state() {
         return {
             articlesData: null,
+            articleData: null,
             articleDate: null,
         };
     },
     mutations: {
         setArticlesData(state, data) {
             state.articlesData = data;
+        },
+        setArticleData(state, data) {
+            state.articleData = data;
         },
         setDate(state, data) {
             state.articleDate = data;
@@ -20,6 +24,16 @@ const articlesModule = {
             try {
                 const data = await this.fetchData(rootState.apiURL + "/posts");
                 commit("setArticlesData", data);
+            } catch (error) {
+                console.log(`There was an error", ${error.message}.`);
+            }
+        },
+        async fetchArticleData({ commit, rootState }, postId) {
+            try {
+                const data = await this.fetchData(
+                    rootState.apiURL + "/posts/" + postId
+                );
+                commit("setArticleData", data);
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
             }
@@ -53,6 +67,9 @@ const articlesModule = {
     getters: {
         articlesGetter(state) {
             return state.articlesData;
+        },
+        articleGetter(state) {
+            return state.articleData;
         },
         articleDateGetter(state) {
             return state.articleDate;

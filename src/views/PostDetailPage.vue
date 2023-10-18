@@ -2,9 +2,9 @@
     <div>
         <div v-if="articleData">
             <h1>More details about article</h1>
-            <h2>Title: {{ articleData[0].title }}</h2>
+            <h2>Title: {{ articleData.title }}</h2>
             <h2>Author: {{ authorName }}</h2>
-            <h2>Article content: {{ articleData[0].body }}</h2>
+            <h2>Article content: {{ articleData.body }}</h2>
             <h2>Date: {{ articleDate }}</h2>
             <article-delete-button
                 @click.native="isModalVisible = true"
@@ -12,8 +12,8 @@
             <delete-verification-modal
                 v-if="isModalVisible"
                 @closeModal="isModalVisible = false"
-                :id="articleData[0].id"
-                >{{ articleData[0].title }}</delete-verification-modal
+                :id="articleData.id"
+                >{{ articleData.title }}</delete-verification-modal
             >
         </div>
         <div v-else>
@@ -40,8 +40,8 @@ export default {
     methods: {
         displayDate() {
             const dateObject = {
-                created: this.articleData[0].created_at,
-                updated: this.articleData[0].updated_at,
+                created: this.articleData.created_at,
+                updated: this.articleData.updated_at,
             };
             this.$store.dispatch("showCreatedOrEditedDate", dateObject);
             this.articleDate = this.$store.getters.articleDateGetter;
@@ -53,23 +53,24 @@ export default {
         },
     },
     created() {
-        this.$store.dispatch("fetchArticlesData").then(() => {
-            const postId = this.$route.params.id;
-            if (!this.$store.getters.articlesGetter) {
-                this.$store.dispatch("notificationAction");
+        const postId = this.$route.params.id;
+        this.$store.dispatch("fetchArticleData", postId).then(() => {
+            if (!this.$store.getters.articleGetter) {
+                const errorNotification = {
+                    type: "error",
+                    message:
+                        "There was a problem getting the data. Please try again later.",
+                };
+                this.$store.dispatch("notificationAction", errorNotification);
             }
-            this.articleData = this.$store.getters.articlesGetter.filter(
-                (article) => {
-                    return article.id == postId;
-                }
-            );
+            this.articleData = this.$store.getters.articleGetter;
 
             this.displayDate();
 
             this.$store.dispatch("fetchAuthorsData").then(() => {
                 this.authorsData = this.$store.getters.authorsGetter;
                 this.$store
-                    .dispatch("authorName", this.articleData[0].authorId)
+                    .dispatch("authorName", this.articleData.authorId)
                     .then(() => {
                         this.authorName = this.$store.getters.authorNameGetter;
                     });

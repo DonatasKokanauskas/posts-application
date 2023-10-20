@@ -1,15 +1,15 @@
 <template>
     <div>
-        <h1>Posts page</h1>
-        <div v-if="articlesData !== null && articlesData.length > 0">
+        <div v-if="allArticles && allArticles.length > 0">
             <Article
-                v-for="article in articlesData"
+                v-for="article in allArticles"
                 :key="article.id"
                 :id="article.id"
                 :title="article.title"
                 :authorId="article.authorId"
                 :createdDate="article.created_at"
                 :updatedDate="article.updated_at"
+                :authorName="article.author.name"
             ></Article>
         </div>
         <div v-else>
@@ -20,43 +20,20 @@
 
 <script>
 import Article from "../components/Article.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         Article,
     },
-    data() {
-        return {
-            authorsData: [],
-        };
-    },
-    methods: {},
     computed: {
-        articlesData() {
-            return this.$store.getters.articlesGetter;
-        },
-        // showNotification() {
-        //     return this.$store.getters.notificationGetter;
-        // },
+        ...mapGetters(["allArticles"]),
     },
-    created() {
-        this.$store.dispatch("fetchAuthorsData").then(() => {
-            this.authorsData = this.$store.getters.authorsGetter;
-
-            this.$store.dispatch("fetchArticlesData").then(() => {
-                if (!this.articlesData) {
-                    const errorNotification = {
-                        type: "error",
-                        message:
-                            "There was a problem getting the data. Please try again later.",
-                    };
-                    this.$store.dispatch(
-                        "notificationAction",
-                        errorNotification
-                    );
-                }
-            });
-        });
+    methods: {
+        ...mapActions(["fetchArticlesData"]),
+    },
+    async created() {
+        await this.fetchArticlesData();
     },
 };
 </script>

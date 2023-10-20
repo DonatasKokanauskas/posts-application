@@ -14,12 +14,10 @@ const store = new Vuex.Store({
         modalModule,
     },
     plugins: [fetchPlugin],
-    state() {
-        return {
-            apiURL: "http://localhost:3000",
-            errorNotificationIsVisible: null,
-            successNotificationIsVisible: null,
-        };
+    state: {
+        apiURL: SERVER_ADDR,
+        errorNotificationIsVisible: null,
+        successNotificationIsVisible: null,
     },
     mutations: {
         setErrorNotification(state, notification) {

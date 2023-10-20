@@ -1,39 +1,43 @@
 <template>
     <div id="app">
-        <router-link to="/"><button type="button">Home</button></router-link>
+        <router-link to="/"
+            ><button type="button" class="button m-4 mb-6">
+                Home
+            </button></router-link
+        >
         <router-view></router-view>
         <popup-notification
-            v-if="showErrorNotification"
-            :class="showErrorNotification.type"
-            >{{ showErrorNotification.message }}</popup-notification
+            v-if="errorNotificationGetter"
+            :class="errorNotificationGetter.type"
+            >{{ errorNotificationGetter.message }}</popup-notification
         >
         <popup-notification
-            v-if="showSuccessNotification"
-            :class="showSuccessNotification.type"
-            >{{ showSuccessNotification.message }}</popup-notification
+            v-if="successNotificationGetter"
+            :class="successNotificationGetter.type"
+            >{{ successNotificationGetter.message }}</popup-notification
         >
+        <Modal></Modal>
     </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import PopupNotification from "./components/PopupNotification.vue";
+import Modal from "./components/modals/Modal.vue";
+
 export default {
-    data() {
-        return {};
+    components: {
+        PopupNotification,
+        Modal,
     },
-    components: {},
-    methods: {},
     computed: {
-        showErrorNotification() {
-            return this.$store.getters.errorNotificationGetter;
-        },
-        showSuccessNotification() {
-            return this.$store.getters.successNotificationGetter;
-        },
+        ...mapGetters(["errorNotificationGetter", "successNotificationGetter"]),
     },
 };
 </script>
 
 <style>
+@import "bulma/css/bulma.min.css";
 body {
     font-family: sans-serif;
     padding: 0;
@@ -41,6 +45,7 @@ body {
     box-sizing: border-box;
     width: 50vw;
     margin: 20px auto;
+    width: 100vw;
 }
 a {
     text-decoration: none;

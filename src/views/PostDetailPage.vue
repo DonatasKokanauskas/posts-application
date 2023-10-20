@@ -1,81 +1,68 @@
 <template>
-    <div>
-        <div v-if="articleData">
-            <h1>More details about article</h1>
-            <h2>Title: {{ articleData.title }}</h2>
-            <h2>Author: {{ authorName }}</h2>
-            <h2>Article content: {{ articleData.body }}</h2>
-            <h2>Date: {{ articleDate }}</h2>
-            <article-delete-button
-                @click.native="isModalVisible = true"
-            ></article-delete-button>
-            <delete-verification-modal
-                v-if="isModalVisible"
-                @closeModal="isModalVisible = false"
-                :id="articleData.id"
-                >{{ articleData.title }}</delete-verification-modal
-            >
-        </div>
-        <div v-else>
-            <h1>There are no article data</h1>
-            <popup-notification v-if="showNotification" class="error"
-                >There was a problem getting the data. Please try again
-                later.</popup-notification
-            >
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <div v-if="articleGetter">
+                        <div class="mb-6">
+                            <h1>More details about article</h1>
+                            <h2>Title: {{ articleGetter.title }}</h2>
+                            <h2>Author: {{ articleGetter.author.name }}</h2>
+                            <h2>Article content: {{ articleGetter.body }}</h2>
+                            <h2>
+                                Date:
+                                {{
+                                    showCreatedOrEditedDate(
+                                        this.articleGetter.created_at,
+                                        this.articleGetter.updated_at
+                                    )
+                                }}
+                            </h2>
+                        </div>
+
+                        <article-delete-button
+                            @click.native="showModal"
+                        ></article-delete-button>
+                    </div>
+                    <div v-else>
+                        <h1>There are no article data</h1>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import dateMixin from "../mixins/dateMixin.js";
+import { mapGetters, mapActions } from "vuex";
 export default {
-    data() {
-        return {
-            articleData: null,
-            articleDate: null,
-            authorsData: [],
-            authorName: "",
-            isModalVisible: false,
-        };
-    },
+    mixins: [dateMixin],
     methods: {
-        displayDate() {
-            const dateObject = {
-                created: this.articleData.created_at,
-                updated: this.articleData.updated_at,
-            };
-            this.$store.dispatch("showCreatedOrEditedDate", dateObject);
-            this.articleDate = this.$store.getters.articleDateGetter;
+        ...mapActions(["fetchArticleData", "modalAction"]),
+        showModal() {
+            this.modalAction({
+                component: "DeleteVerification",
+                isVisible: true,
+                id: this.articleGetter.id,
+                title: this.articleGetter.title,
+            });
         },
     },
     computed: {
-        showNotification() {
-            return this.$store.getters.notificationGetter;
-        },
+        ...mapGetters(["articleGetter"]),
     },
-    created() {
+    async created() {
         const postId = this.$route.params.id;
-        this.$store.dispatch("fetchArticleData", postId).then(() => {
-            if (!this.$store.getters.articleGetter) {
-                const errorNotification = {
-                    type: "error",
-                    message:
-                        "There was a problem getting the data. Please try again later.",
-                };
-                this.$store.dispatch("notificationAction", errorNotification);
-            }
-            this.articleData = this.$store.getters.articleGetter;
-
-            this.displayDate();
-
-            this.$store.dispatch("fetchAuthorsData").then(() => {
-                this.authorsData = this.$store.getters.authorsGetter;
-                this.$store
-                    .dispatch("authorName", this.articleData.authorId)
-                    .then(() => {
-                        this.authorName = this.$store.getters.authorNameGetter;
-                    });
-            });
-        });
+        await this.fetchArticleData(postId);
     },
 };
 </script>
+
+<style>
+.container {
+    width: 100vw;
+}
+.card {
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="notification">
-        <h3><slot></slot></h3>
+        <h3 class="title is-5"><slot></slot></h3>
     </div>
 </template>
 

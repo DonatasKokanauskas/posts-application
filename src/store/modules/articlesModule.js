@@ -1,11 +1,19 @@
 import axios from "axios";
 
+const reusableErrorFunction = (dispatch) => {
+    const errorNotification = {
+        type: "error",
+        message:
+            "There was a problem getting the data. Please try again later.",
+    };
+    dispatch("notificationAction", errorNotification);
+};
+
 const articlesModule = {
     state() {
         return {
             articlesData: null,
             articleData: null,
-            articleDate: null,
         };
     },
     mutations: {
@@ -15,43 +23,28 @@ const articlesModule = {
         setArticleData(state, data) {
             state.articleData = data;
         },
-        setDate(state, data) {
-            state.articleDate = data;
-        },
     },
     actions: {
-        async fetchArticlesData({ commit, rootState }) {
+        async fetchArticlesData({ commit, rootState, dispatch }) {
             try {
-                const data = await this.fetchData(rootState.apiURL + "/posts");
+                const data = await this.fetchData(
+                    rootState.apiURL + "/posts?_expand=author"
+                );
                 commit("setArticlesData", data);
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
+                reusableErrorFunction(dispatch);
             }
         },
-        async fetchArticleData({ commit, rootState }, postId) {
+        async fetchArticleData({ commit, rootState, dispatch }, postId) {
             try {
                 const data = await this.fetchData(
-                    rootState.apiURL + "/posts/" + postId
+                    rootState.apiURL + "/posts/" + postId + "?_expand=author"
                 );
                 commit("setArticleData", data);
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
-            }
-        },
-        showCreatedOrEditedDate({ commit }, dateObject) {
-            const createdDate = new Date(dateObject.created).getTime();
-            const updatedDate = new Date(dateObject.updated).getTime();
-
-            if (createdDate > updatedDate) {
-                const date = new Date(createdDate)
-                    .toLocaleString("lt-LT")
-                    .slice(0, 11);
-                commit("setDate", date);
-            } else {
-                const date = new Date(updatedDate)
-                    .toLocaleString("lt-LT")
-                    .slice(0, 11);
-                commit("setDate", date);
+                reusableErrorFunction(dispatch);
             }
         },
         async deleteArticleAction({ rootState }, articleIdToDelete) {
@@ -65,14 +58,9 @@ const articlesModule = {
         },
     },
     getters: {
-        articlesGetter(state) {
-            return state.articlesData;
-        },
+        allArticles: (state) => state.articlesData,
         articleGetter(state) {
             return state.articleData;
-        },
-        articleDateGetter(state) {
-            return state.articleDate;
         },
     },
 };

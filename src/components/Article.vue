@@ -1,63 +1,79 @@
 <template>
-    <li>
-        <div>
-            <h3>Title: {{ title }}</h3>
-            <h3>Author: {{ authorName }}</h3>
-            <h3>Date: {{ articleDate }}</h3>
-            <button @click="navigateToDetailPage">More details</button>
+    <div class="card">
+        <div class="card-content">
+            <div class="content">
+                <div>
+                    <h3>Title: {{ title }}</h3>
+                    <h3>Author: {{ authorName }}</h3>
+                    <h3>
+                        Date:
+                        {{ showCreatedOrEditedDate(createdDate, updatedDate) }}
+                    </h3>
+                    <button
+                        @click="navigateToDetailPage"
+                        class="button is-small"
+                    >
+                        More details
+                    </button>
+                </div>
+
+                <article-delete-button
+                    @click.native="showModal"
+                ></article-delete-button>
+            </div>
         </div>
-        <delete-verification-modal
-            v-if="isModalVisible"
-            @closeModal="isModalVisible = false"
-            :id="id"
-            >{{ title }}
-        </delete-verification-modal>
-        <article-delete-button
-            @click.native="isModalVisible = true"
-        ></article-delete-button>
-    </li>
+    </div>
 </template>
 
 <script>
+import dateMixin from "../mixins/dateMixin.js";
+import { mapActions } from "vuex";
+
 export default {
-    props: ["title", "authorId", "createdDate", "updatedDate", "id"],
-    data() {
-        return {
-            articleDate: null,
-            authorName: "",
-            isModalVisible: false,
-        };
+    props: {
+        title: {
+            type: String,
+        },
+        createdDate: {
+            type: String,
+        },
+        updatedDate: {
+            type: String,
+        },
+        id: {
+            type: Number,
+        },
+        authorName: {
+            type: String,
+        },
     },
+    mixins: [dateMixin],
     methods: {
+        ...mapActions(["modalAction"]),
         navigateToDetailPage() {
             this.$router.push({ path: "/postsDetailPage/" + this.id });
         },
-    },
-    computed: {},
-    created() {
-        const dateObject = {
-            created: this.createdDate,
-            updated: this.updatedDate,
-        };
-
-        this.$store.dispatch("showCreatedOrEditedDate", dateObject);
-        this.articleDate = this.$store.getters.articleDateGetter;
-
-        this.$store.dispatch("authorName", this.authorId);
-        this.authorName = this.$store.getters.authorNameGetter;
+        showModal() {
+            this.modalAction({
+                component: "DeleteVerification",
+                isVisible: true,
+                id: this.id,
+                title: this.title,
+            });
+        },
     },
 };
 </script>
 
-<style>
-li {
-    list-style: none;
-    border: 1px solid black;
+<style scoped>
+.card {
+    width: 70vw;
+    margin: 0 auto 10px auto;
+}
+
+.content {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    padding: 0px 100px 10px 100px;
-    margin-bottom: 10px;
+    justify-content: space-between;
 }
 </style>

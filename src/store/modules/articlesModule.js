@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const reusableErrorFunction = (dispatch) => {
+const showFetchErrorNotification = (dispatch) => {
     const errorNotification = {
         type: "error",
         message:
@@ -33,7 +33,7 @@ const articlesModule = {
                 commit("setArticlesData", data);
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
-                reusableErrorFunction(dispatch);
+                showFetchErrorNotification(dispatch);
             }
         },
         async fetchArticleData({ commit, rootState, dispatch }, postId) {
@@ -44,7 +44,7 @@ const articlesModule = {
                 commit("setArticleData", data);
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
-                reusableErrorFunction(dispatch);
+                showFetchErrorNotification(dispatch);
             }
         },
         async deleteArticleAction({ rootState }, articleIdToDelete) {

@@ -25,7 +25,9 @@
                         ></article-delete-button>
                     </div>
                     <div v-else>
-                        <h1>There are no article data</h1>
+                        <h1 class="has-text-centered">
+                            There is no article data
+                        </h1>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,5 @@ export default {
 <style>
 .container {
     width: 100vw;
-}
-.card {
 }
 </style>

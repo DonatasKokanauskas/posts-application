@@ -16,38 +16,27 @@ const store = new Vuex.Store({
     plugins: [fetchPlugin],
     state: {
         apiURL: SERVER_ADDR,
-        errorNotificationIsVisible: null,
-        successNotificationIsVisible: null,
+        notificationData: {
+            type: null,
+            message: "",
+        },
     },
     mutations: {
-        setErrorNotification(state, notification) {
-            state.errorNotificationIsVisible = notification;
-        },
-        setSuccessNotification(state, notification) {
-            state.successNotificationIsVisible = notification;
+        setNotification(state, notification) {
+            state.notificationData = notification;
         },
     },
     actions: {
         notificationAction({ commit }, notification) {
-            if (notification.type === "error") {
-                commit("setErrorNotification", notification);
-                setTimeout(() => {
-                    commit("setErrorNotification", null);
-                }, 3000);
-            } else {
-                commit("setSuccessNotification", notification);
-                setTimeout(() => {
-                    commit("setSuccessNotification", null);
-                }, 3000);
-            }
+            commit("setNotification", notification);
+            setTimeout(() => {
+                commit("setNotification", { type: null, message: "" });
+            }, 3000);
         },
     },
     getters: {
-        errorNotificationGetter(state) {
-            return state.errorNotificationIsVisible;
-        },
-        successNotificationGetter(state) {
-            return state.successNotificationIsVisible;
+        notificationGetter(state) {
+            return state.notificationData;
         },
     },
 });

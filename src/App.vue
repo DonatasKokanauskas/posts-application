@@ -6,16 +6,13 @@
             </button></router-link
         >
         <router-view></router-view>
+
         <popup-notification
-            v-if="errorNotificationGetter"
-            :class="errorNotificationGetter.type"
-            >{{ errorNotificationGetter.message }}</popup-notification
+            v-if="notificationGetter.type"
+            :class="notificationGetter.type"
+            >{{ notificationGetter.message }}</popup-notification
         >
-        <popup-notification
-            v-if="successNotificationGetter"
-            :class="successNotificationGetter.type"
-            >{{ successNotificationGetter.message }}</popup-notification
-        >
+
         <Modal></Modal>
     </div>
 </template>
@@ -31,7 +28,7 @@ export default {
         Modal,
     },
     computed: {
-        ...mapGetters(["errorNotificationGetter", "successNotificationGetter"]),
+        ...mapGetters(["notificationGetter"]),
     },
 };
 </script>

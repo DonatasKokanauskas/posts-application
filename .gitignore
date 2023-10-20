@@ -3,8 +3,6 @@ node_modules/
 dist/
 npm-debug.log
 yarn-error.log
-data
-db.json
 .vite
 
 # Editor directories and files

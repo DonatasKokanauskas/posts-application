@@ -12,8 +12,8 @@
                 :authorName="article.author.name"
             ></Article>
         </div>
-        <div v-else>
-            <h1>There are no articles</h1>
+        <div v-else class="mt-6">
+            <h1 class="title is-3 has-text-centered">There are no articles</h1>
         </div>
     </div>
 </template>

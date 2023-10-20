@@ -1,6 +1,9 @@
 const modalModule = {
     state: () => ({
-        modalData: {},
+        modalData: {
+            component: null,
+            isVisible: false,
+        },
     }),
     mutations: {
         setModalData(state, modalObject) {
@@ -12,7 +15,7 @@ const modalModule = {
             commit("setModalData", modalObject);
         },
         closeModalAction({ commit }) {
-            commit("setModalData", {});
+            commit("setModalData", { component: null, isVisible: false });
         },
     },
     getters: {

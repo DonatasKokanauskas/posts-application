@@ -1,8 +1,6 @@
 <template>
     <div id="app">
-        <router-link to="/"
-            ><button type="button" class="button m-4">Home</button></router-link
-        >
+        <Navbar></Navbar>
         <router-view></router-view>
 
         <popup-notification
@@ -19,11 +17,13 @@
 import { mapGetters } from "vuex";
 import PopupNotification from "./components/PopupNotification.vue";
 import Modal from "./components/modals/Modal.vue";
+import Navbar from "./components/Navbar.vue";
 
 export default {
     components: {
         PopupNotification,
         Modal,
+        Navbar,
     },
     computed: {
         ...mapGetters(["notificationGetter"]),

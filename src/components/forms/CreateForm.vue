@@ -69,7 +69,7 @@ export default {
             "fetchArticlesData",
             "closeModalAction",
         ]),
-        submitForm() {
+        async submitForm() {
             if (this.title && this.author && this.content) {
                 const newArticle = {
                 id: Date.now(),
@@ -79,24 +79,29 @@ export default {
                 created_at: new Date().toLocaleString("lt-LT").slice(0, 11),
                 updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
             };
-            this.postNewArticle(newArticle);
-            this.fetchArticlesData();
+            await this.postNewArticle(newArticle);
+            await this.fetchArticlesData();
             this.closeModalAction();
             }
             
              this.errors = [];
 
-           if (!this.title) {
+           if (!this.title.trim()) {
             this.errors.push("The title field is empty.")
+           }
+
+           if (this.title.trim().length > 50) {
+            this.errors.push("The title must not exceed 50 characters.")
            }
 
            if (!this.author) {
             this.errors.push("The author field is empty.")
            }
 
-           if (!this.content) {
+           if (!this.content.trim()) {
             this.errors.push("The content field is empty.")
            }
+
         },
     },
     computed: {

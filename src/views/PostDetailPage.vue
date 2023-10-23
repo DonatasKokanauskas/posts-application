@@ -3,20 +3,20 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <div v-if="articleGetter">
+                    <div v-if="specificArticle">
                         <div class="mb-6">
                             <h1 class="title is-3 has-text-centered">
                                 More details about article
                             </h1>
-                            <h2>Title: {{ articleGetter.title }}</h2>
-                            <h2>Author: {{ articleGetter.author.name }}</h2>
-                            <h2>Article content: {{ articleGetter.body }}</h2>
+                            <h2>Title: {{ specificArticle.title }}</h2>
+                            <h2>Author: {{ specificArticle.author.name }}</h2>
+                            <h2>Article content: {{ specificArticle.body }}</h2>
                             <h2>
                                 Date:
                                 {{
                                     showCreatedOrEditedDate(
-                                        this.articleGetter.created_at,
-                                        this.articleGetter.updated_at
+                                        this.specificArticle.created_at,
+                                        this.specificArticle.updated_at
                                     )
                                 }}
                             </h2>
@@ -48,13 +48,13 @@ export default {
             this.modalAction({
                 component: "DeleteVerification",
                 isVisible: true,
-                id: this.articleGetter.id,
-                title: this.articleGetter.title,
+                id: this.specificArticle.id,
+                title: this.specificArticle.title,
             });
         },
     },
     computed: {
-        ...mapGetters(["articleGetter"]),
+        ...mapGetters(["specificArticle"]),
     },
     async created() {
         const postId = this.$route.params.id;

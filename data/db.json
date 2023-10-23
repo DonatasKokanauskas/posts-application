@@ -33,38 +33,6 @@
   ],
   "posts": [
     {
-      "id": 1,
-      "title": "Lorem Ipsum",
-      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "authorId": 3,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
-      "id": 2,
-      "title": "Vivamus Euismod",
-      "body": "Vivamus euismod tempus massa, non cursus velit maximus sed.",
-      "authorId": 5,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
-      "id": 3,
-      "title": "Praesent Tristique",
-      "body": "Praesent tristique orci non lorem efficitur, ut fermentum turpis rutrum.",
-      "authorId": 1,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
-      "id": 4,
-      "title": "Nullam Dapibus",
-      "body": "Nullam dapibus orci eu lacus cursus, vel varius velit facilisis.",
-      "authorId": 4,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
       "id": 5,
       "title": "Aenean Condimentum",
       "body": "Aenean condimentum tincidunt mauris id ultrices.",

@@ -93,7 +93,7 @@ const articlesModule = {
     },
     getters: {
         allArticles: (state) => state.articlesData,
-        articleGetter(state) {
+        specificArticle(state) {
             return state.articleData;
         },
     },

@@ -70,7 +70,7 @@ export default {
             "closeModalAction",
         ]),
         async submitForm() {
-            if (this.title.trim() && !this.title.trim().length > 50 && this.author && this.content.trim()) {
+            if (this.title.trim() && !(this.title.trim().length > 50) && this.author && this.content.trim()) {
                 const newArticle = {
                 id: Date.now(),
                 title: this.title,

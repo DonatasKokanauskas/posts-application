@@ -1,7 +1,9 @@
 <template>
-    <div class="card">
+    <div class="card mb-2">
         <div class="card-content">
-            <div class="content">
+            <div
+                class="content is-flex is-align-items-center is-justify-content-space-between"
+            >
                 <div>
                     <h3>Title: {{ title }}</h3>
                     <h3>Author: {{ authorName }}</h3>
@@ -64,16 +66,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.card {
-    width: 70vw;
-    margin: 0 auto 10px auto;
-}
-
-.content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-</style>

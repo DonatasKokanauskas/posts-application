@@ -1,9 +1,7 @@
 <template>
     <div id="app">
         <router-link to="/"
-            ><button type="button" class="button m-4 mb-6">
-                Home
-            </button></router-link
+            ><button type="button" class="button m-4">Home</button></router-link
         >
         <router-view></router-view>
 
@@ -40,15 +38,10 @@ body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    width: 50vw;
-    margin: 20px auto;
-    width: 100vw;
 }
-a {
-    text-decoration: none;
-}
-button {
-    cursor: pointer;
+#app {
+    width: 70vw;
+    margin: 0 auto;
 }
 .success {
     background-color: green;

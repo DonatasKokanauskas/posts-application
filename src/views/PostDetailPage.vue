@@ -5,7 +5,9 @@
                 <div class="content">
                     <div v-if="articleGetter">
                         <div class="mb-6">
-                            <h1>More details about article</h1>
+                            <h1 class="title is-3 has-text-centered">
+                                More details about article
+                            </h1>
                             <h2>Title: {{ articleGetter.title }}</h2>
                             <h2>Author: {{ articleGetter.author.name }}</h2>
                             <h2>Article content: {{ articleGetter.body }}</h2>
@@ -60,9 +62,3 @@ export default {
     },
 };
 </script>
-
-<style>
-.container {
-    width: 100vw;
-}
-</style>

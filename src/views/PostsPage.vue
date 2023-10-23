@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="is-flex is-justify-content-center">
+            <button class="button is-info is-light m-4" @click="showModal">
+                Create article
+            </button>
+        </div>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
                 v-for="article in allArticles"
@@ -12,7 +17,7 @@
                 :authorName="article.author.name"
             ></Article>
         </div>
-        <div v-else class="mt-6">
+        <div v-else-if="allArticles && allArticles.length === 0" class="mt-6">
             <h1 class="title is-3 has-text-centered">There are no articles</h1>
         </div>
     </div>
@@ -30,10 +35,17 @@ export default {
         ...mapGetters(["allArticles"]),
     },
     methods: {
-        ...mapActions(["fetchArticlesData"]),
+        ...mapActions(["fetchArticlesData", "fetchAuthorsData", "modalAction"]),
+        showModal() {
+            this.modalAction({
+                component: "CreateForm",
+                isVisible: true,
+            });
+        },
     },
     async created() {
         await this.fetchArticlesData();
+        await this.fetchAuthorsData();
     },
 };
 </script>

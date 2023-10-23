@@ -2,11 +2,8 @@
     <div v-if="modalDataGetter.isVisible" class="modal is-active">
         <div class="modal-background"></div>
         <div class="modal-content">
-            <div class="notification">
-                <component
-                    v-if="modalDataGetter.isVisible"
-                    :is="modalDataGetter.component"
-                ></component>
+            <div class="notification is-flex p-6 has-background-white">
+                <component :is="modalDataGetter.component"></component>
             </div>
         </div>
         <button
@@ -19,11 +16,13 @@
 
 <script>
 import DeleteVerification from "../DeleteVerification.vue";
+import CreateForm from "../forms/CreateForm.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
-        DeleteVerification: DeleteVerification,
+        DeleteVerification,
+        CreateForm,
     },
     computed: {
         ...mapGetters(["modalDataGetter"]),
@@ -36,14 +35,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-@import "bulma/css/bulma.min.css";
-.notification {
-    height: 350px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-</style>

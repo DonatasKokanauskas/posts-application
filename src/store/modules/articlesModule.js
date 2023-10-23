@@ -47,13 +47,47 @@ const articlesModule = {
                 showFetchErrorNotification(dispatch);
             }
         },
-        async deleteArticleAction({ rootState }, articleIdToDelete) {
+        async deleteArticleAction({ rootState, dispatch }, articleIdToDelete) {
             try {
-                await axios.delete(
+                const response = await axios.delete(
                     `${rootState.apiURL}/posts/${articleIdToDelete}`
                 );
+
+                if (response.status >= 200 && response.status < 300) {
+                    dispatch("notificationAction", {
+                        type: "success",
+                        message: "You have successfully deleted the article",
+                    });
+                }
             } catch (error) {
                 console.log("There was an error", error);
+                dispatch("notificationAction", {
+                    type: "error",
+                    message:
+                        "There was a problem deleting the article. Please try again later.",
+                });
+            }
+        },
+        async postNewArticle({ rootState, dispatch }, newArticle) {
+            try {
+                const response = await axios.post(
+                    `${rootState.apiURL}/posts`,
+                    newArticle
+                );
+
+                if (response.status >= 200 && response.status < 300) {
+                    dispatch("notificationAction", {
+                        type: "success",
+                        message:
+                            "You have successfully created the new article",
+                    });
+                }
+            } catch (error) {
+                dispatch("notificationAction", {
+                    type: "error",
+                    message:
+                        "There was a problem posting the new article. Please try again later.",
+                });
             }
         },
     },

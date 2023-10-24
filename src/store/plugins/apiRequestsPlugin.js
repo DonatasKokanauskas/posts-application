@@ -13,9 +13,9 @@ const apiRequestsPlugin = (store) => {
         }
     };
 
-    store.postData = (url, data) => {
+    store.postData = async (url, data) => {
         try {
-            axios.post(url, data);
+            await axios.post(url, data);
         } catch (error) {
             throw new Error(
                 `An error occurred while trying to post data to the following URL: ${url}. ${error}`
@@ -23,12 +23,22 @@ const apiRequestsPlugin = (store) => {
         }
     };
 
-    store.deleteData = (url) => {
+    store.deleteData = async (url) => {
         try {
-            axios.delete(url);
+            await axios.delete(url);
         } catch (error) {
             throw new Error(
                 `An error occurred while trying to delete data from the following URL: ${url}. ${error}`
+            );
+        }
+    };
+
+    store.editData = async (url, editedData) => {
+        try {
+            await axios.put(url, editedData);
+        } catch (error) {
+            throw new Error(
+                `An error occurred while trying to edit data from the following URL: ${url}. ${error}`
             );
         }
     };

@@ -28,6 +28,14 @@ const articlesModule = {
                 (article) => article.id !== articleIdToDelete
             );
         },
+        editArticle(state, editedArticle) {
+            const postIndex = state.articlesData.findIndex(
+                (article) => article.id === editedArticle.id
+            );
+            if (postIndex !== -1) {
+                state.articlesData.splice(postIndex, 1, editedArticle);
+            }
+        },
     },
     actions: {
         async fetchArticlesData({ commit, rootState, dispatch }) {
@@ -81,6 +89,7 @@ const articlesModule = {
         async postNewArticle({ rootState, dispatch, commit }, newArticle) {
             try {
                 await this.postData(`${rootState.apiURL}/posts`, newArticle);
+
                 commit("pushNewArticle", newArticle);
 
                 dispatch("notificationAction", {
@@ -95,6 +104,31 @@ const articlesModule = {
                     message:
                         "There was a problem posting the new article. Please try again later.",
                     isVisible: true,
+                });
+            }
+        },
+        async editArticle(
+            { rootState, getters, dispatch, commit },
+            editedArticle
+        ) {
+            try {
+                await this.editData(
+                    `${rootState.apiURL}/posts/${getters.modalDataGetter.id}`,
+                    editedArticle
+                );
+
+                commit("editArticle", editedArticle);
+
+                dispatch("notificationAction", {
+                    type: "success",
+                    message: "You have successfully edited the article",
+                });
+            } catch (error) {
+                console.log(`There was an error", ${error.message}.`);
+                dispatch("notificationAction", {
+                    type: "error",
+                    message:
+                        "There was a problem editing the article. Please try again later.",
                 });
             }
         },

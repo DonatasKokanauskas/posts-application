@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import articlesModule from "./modules/articlesModule";
 import authorsModule from "./modules/authorsModule";
 import modalModule from "./modules/modalModule";
-import apiRequestsPlugin from "./plugins/fetchPlugin";
+import apiRequestsPlugin from "./plugins/apiRequestsPlugin.js";
 
 Vue.use(Vuex);
 

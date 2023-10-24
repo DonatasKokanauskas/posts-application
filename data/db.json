@@ -65,14 +65,6 @@
       "updated_at": "2023-05-31"
     },
     {
-      "id": 9,
-      "title": "Etiam Ultricies",
-      "body": "Etiam ultricies risus at nunc congue scelerisque.",
-      "authorId": 4,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
       "id": 10,
       "title": "Vestibulum Tincidunt",
       "body": "Vestibulum tincidunt ex vitae ex ultrices, ac eleifend lectus bibendum.",

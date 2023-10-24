@@ -20,11 +20,7 @@ export default {
         ...mapGetters(["modalDataGetter"]),
     },
     methods: {
-        ...mapActions([
-            "deleteArticleAction",
-            "fetchArticlesData",
-            "closeModalAction",
-        ]),
+        ...mapActions(["deleteArticleAction", "closeModalAction"]),
         async deleteArticle() {
             await this.deleteArticleAction(this.modalDataGetter.id);
 

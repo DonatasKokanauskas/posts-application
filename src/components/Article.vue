@@ -19,9 +19,14 @@
                     </button>
                 </div>
 
-                <article-delete-button
-                    @click.native="showModal"
-                ></article-delete-button>
+                <div class="is-flex is-flex-direction-column">
+                    <article-delete-button
+                        @click.native="showModal"
+                    ></article-delete-button>
+                    <button class="button mt-2" @click="showEditFormModal">
+                        Edit article
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -61,6 +66,13 @@ export default {
                 isVisible: true,
                 id: this.id,
                 title: this.title,
+            });
+        },
+        showEditFormModal() {
+            this.modalAction({
+                component: "EditForm",
+                isVisible: true,
+                id: this.id,
             });
         },
     },

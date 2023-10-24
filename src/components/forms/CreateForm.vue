@@ -42,17 +42,29 @@
             </div>
         </div>
         <button class="button is-success is-light">Submit</button>
-        <p v-if="errors.length" class="pt-5 is-flex is-flex-direction-column is-align-items-center">
-            <b class="has-text-danger">Please correct the following error(s):</b>
+        <div
+            v-if="errors.length"
+            class="pt-5 is-flex is-flex-direction-column is-align-items-center"
+        >
+            <b class="has-text-danger"
+                >Please correct the following error(s):</b
+            >
             <ul>
-            <li v-for="error in errors" :key="error" class="has-text-danger">{{ error }}</li>
+                <li
+                    v-for="error in errors"
+                    :key="error"
+                    class="has-text-danger"
+                >
+                    {{ error }}
+                </li>
             </ul>
-        </p>
+        </div>
     </form>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import formValidationMixin from "../../mixins/formValidationMixin.js";
 
 export default {
     data() {
@@ -64,52 +76,36 @@ export default {
         };
     },
     methods: {
-        ...mapActions([
-            "postNewArticle",
-            "fetchArticlesData",
-            "closeModalAction",
-        ]),
+        ...mapActions(["postNewArticle", "closeModalAction"]),
         async submitForm() {
-    this.errors = [];
+            this.formValidation();
 
-           if (!this.title.trim()) {
-            this.errors.push("The title field is empty.")
-           }
+            if (!this.author) {
+                this.errors.push("Author is not selected.");
+            }
 
-           if (this.title.trim().length > 50) {
-            this.errors.push("The title must not exceed 50 characters.")
-           }
-
-           if (!this.author) {
-            this.errors.push("Author is not selected.")
-           }
-
-           if (!this.content.trim()) {
-            this.errors.push("The content field is empty.")
-           }
-
-           if(this.errors.length > 0) {
-            return
-           }
+            if (this.errors.length > 0) {
+                return;
+            }
 
             const newArticle = {
                 id: Date.now(),
-                title: this.title,
-                body: this.content,
+                title: this.title.trim(),
+                body: this.content.trim(),
                 authorId: this.author,
                 created_at: new Date().toLocaleString("lt-LT").slice(0, 11),
                 updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
-                author: this.allAuthors.find((author) => author.id === this.author)
+                author: this.allAuthors.find(
+                    (author) => author.id === this.author
+                ),
             };
             await this.postNewArticle(newArticle);
             this.closeModalAction();
-            
-         
-
         },
     },
     computed: {
         ...mapGetters(["allAuthors"]),
     },
+    mixins: [formValidationMixin],
 };
 </script>

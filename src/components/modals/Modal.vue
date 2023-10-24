@@ -17,12 +17,14 @@
 <script>
 import DeleteVerification from "../DeleteVerification.vue";
 import CreateForm from "../forms/CreateForm.vue";
+import EditForm from "../forms/EditForm.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         DeleteVerification,
         CreateForm,
+        EditForm,
     },
     computed: {
         ...mapGetters(["modalDataGetter"]),

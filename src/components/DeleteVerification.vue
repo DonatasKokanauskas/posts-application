@@ -27,7 +27,6 @@ export default {
         ]),
         async deleteArticle() {
             await this.deleteArticleAction(this.modalDataGetter.id);
-            await this.fetchArticlesData();
 
             if (this.$router.currentRoute.fullPath !== "/") {
                 this.$router.push({ path: "/" });

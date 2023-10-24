@@ -1,10 +1,10 @@
 const modalModule = {
-    state: () => ({
+    state: {
         modalData: {
             component: null,
             isVisible: false,
         },
-    }),
+    },
     mutations: {
         setModalData(state, modalObject) {
             state.modalData = modalObject;

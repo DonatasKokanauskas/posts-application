@@ -10,11 +10,9 @@ const showFetchErrorNotification = (dispatch) => {
 };
 
 const articlesModule = {
-    state() {
-        return {
-            articlesData: null,
-            articleData: null,
-        };
+    state: {
+        articlesData: [],
+        articleData: null,
     },
     mutations: {
         setArticlesData(state, data) {
@@ -22,6 +20,14 @@ const articlesModule = {
         },
         setArticleData(state, data) {
             state.articleData = data;
+        },
+        pushNewArticle(state, newArticle) {
+            state.articlesData.push(newArticle);
+        },
+        filterArticles(state, articleIdToDelete) {
+            state.articlesData = state.articlesData.filter(
+                (article) => article.id !== articleIdToDelete
+            );
         },
     },
     actions: {
@@ -47,20 +53,23 @@ const articlesModule = {
                 showFetchErrorNotification(dispatch);
             }
         },
-        async deleteArticleAction({ rootState, dispatch }, articleIdToDelete) {
+        async deleteArticleAction(
+            { rootState, dispatch, commit },
+            articleIdToDelete
+        ) {
             try {
-                const response = await axios.delete(
+                await this.deleteData(
                     `${rootState.apiURL}/posts/${articleIdToDelete}`
                 );
 
-                if (response.status >= 200 && response.status < 300) {
-                    dispatch("notificationAction", {
-                        type: "success",
-                        message: "You have successfully deleted the article",
-                    });
-                }
+                commit("filterArticles", articleIdToDelete);
+
+                dispatch("notificationAction", {
+                    type: "success",
+                    message: "You have successfully deleted the article",
+                });
             } catch (error) {
-                console.log("There was an error", error);
+                console.log(`There was an error", ${error.message}.`);
                 dispatch("notificationAction", {
                     type: "error",
                     message:
@@ -68,21 +77,17 @@ const articlesModule = {
                 });
             }
         },
-        async postNewArticle({ rootState, dispatch }, newArticle) {
+        async postNewArticle({ rootState, dispatch, commit }, newArticle) {
             try {
-                const response = await axios.post(
-                    `${rootState.apiURL}/posts`,
-                    newArticle
-                );
+                await this.postData(`${rootState.apiURL}/posts`, newArticle);
+                commit("pushNewArticle", newArticle);
 
-                if (response.status >= 200 && response.status < 300) {
-                    dispatch("notificationAction", {
-                        type: "success",
-                        message:
-                            "You have successfully created the new article",
-                    });
-                }
+                dispatch("notificationAction", {
+                    type: "success",
+                    message: "You have successfully created the new article",
+                });
             } catch (error) {
+                console.log(`There was an error", ${error.message}.`);
                 dispatch("notificationAction", {
                     type: "error",
                     message:
@@ -93,9 +98,7 @@ const articlesModule = {
     },
     getters: {
         allArticles: (state) => state.articlesData,
-        specificArticle(state) {
-            return state.articleData;
-        },
+        specificArticle: (state) => state.articleData,
     },
 };
 

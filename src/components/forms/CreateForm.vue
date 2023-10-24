@@ -70,21 +70,7 @@ export default {
             "closeModalAction",
         ]),
         async submitForm() {
-            if (this.title.trim() && !(this.title.trim().length > 50) && this.author && this.content.trim()) {
-                const newArticle = {
-                id: Date.now(),
-                title: this.title,
-                body: this.content,
-                authorId: this.author,
-                created_at: new Date().toLocaleString("lt-LT").slice(0, 11),
-                updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
-            };
-            await this.postNewArticle(newArticle);
-            await this.fetchArticlesData();
-            this.closeModalAction();
-            }
-            
-             this.errors = [];
+    this.errors = [];
 
            if (!this.title.trim()) {
             this.errors.push("The title field is empty.")
@@ -95,12 +81,30 @@ export default {
            }
 
            if (!this.author) {
-            this.errors.push("The author field is empty.")
+            this.errors.push("Author is not selected.")
            }
 
            if (!this.content.trim()) {
             this.errors.push("The content field is empty.")
            }
+
+           if(this.errors.length > 0) {
+            return
+           }
+
+            const newArticle = {
+                id: Date.now(),
+                title: this.title,
+                body: this.content,
+                authorId: this.author,
+                created_at: new Date().toLocaleString("lt-LT").slice(0, 11),
+                updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
+                author: this.allAuthors.find((author) => author.id === this.author)
+            };
+            await this.postNewArticle(newArticle);
+            this.closeModalAction();
+            
+         
 
         },
     },

@@ -19,6 +19,7 @@ const store = new Vuex.Store({
         notificationData: {
             type: null,
             message: "",
+            isVisible: false,
         },
     },
     mutations: {
@@ -30,7 +31,11 @@ const store = new Vuex.Store({
         notificationAction({ commit }, notification) {
             commit("setNotification", notification);
             setTimeout(() => {
-                commit("setNotification", { type: null, message: "" });
+                commit("setNotification", {
+                    type: null,
+                    message: "",
+                    isVisible: false,
+                });
             }, 3000);
         },
     },

@@ -1,10 +1,9 @@
-import axios from "axios";
-
 const showFetchErrorNotification = (dispatch) => {
     const errorNotification = {
         type: "error",
         message:
             "There was a problem getting the data. Please try again later.",
+        isVisible: true,
     };
     dispatch("notificationAction", errorNotification);
 };
@@ -67,6 +66,7 @@ const articlesModule = {
                 dispatch("notificationAction", {
                     type: "success",
                     message: "You have successfully deleted the article",
+                    isVisible: true,
                 });
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
@@ -74,6 +74,7 @@ const articlesModule = {
                     type: "error",
                     message:
                         "There was a problem deleting the article. Please try again later.",
+                    isVisible: true,
                 });
             }
         },
@@ -85,6 +86,7 @@ const articlesModule = {
                 dispatch("notificationAction", {
                     type: "success",
                     message: "You have successfully created the new article",
+                    isVisible: true,
                 });
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
@@ -92,6 +94,7 @@ const articlesModule = {
                     type: "error",
                     message:
                         "There was a problem posting the new article. Please try again later.",
+                    isVisible: true,
                 });
             }
         },

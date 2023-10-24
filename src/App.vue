@@ -4,7 +4,7 @@
         <router-view></router-view>
 
         <popup-notification
-            v-if="notificationGetter.type"
+            v-if="notificationGetter.isVisible"
             :class="notificationGetter.type"
             >{{ notificationGetter.message }}</popup-notification
         >

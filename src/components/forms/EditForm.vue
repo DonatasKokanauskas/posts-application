@@ -68,7 +68,12 @@ export default {
         ...mapGetters(["modalDataGetter", "specificArticle", "allAuthors"]),
     },
     methods: {
-        ...mapActions(["fetchArticleData", "editArticle", "closeModalAction"]),
+        ...mapActions([
+            "fetchArticleData",
+            "editArticle",
+            "closeModalAction",
+            "fetchAuthorsData",
+        ]),
         async submitForm() {
             this.formValidation();
 
@@ -95,6 +100,7 @@ export default {
     },
     async created() {
         await this.fetchArticleData(this.modalDataGetter.id);
+        await this.fetchAuthorsData();
         this.initialTitle = this.specificArticle.title;
         this.title = this.specificArticle.title;
         this.content = this.specificArticle.body;

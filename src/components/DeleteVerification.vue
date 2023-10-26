@@ -1,8 +1,8 @@
 <template>
     <div
-        class="container is-flex is-align-items-center is-justify-content-center"
+        class="container is-flex is-align-items-center is-justify-content-center is-flex-direction-column"
     >
-        <h1 class="title is-4 mb-6 mr-3 ml-5 has-text-centered">
+        <h1 class="title is-4 mb-6 mr-3 ml-5 has-text-centered mt-5">
             Are you sure that you want to delete "{{ modalDataGetter.title }}"
             article?
         </h1>
@@ -33,13 +33,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-@import "bulma/css/bulma.min.css";
-.container {
-    flex-direction: column;
-}
-.notification h1 {
-    margin: 40px 0;
-}
-</style>

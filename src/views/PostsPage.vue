@@ -5,6 +5,7 @@
                 Create article
             </button>
         </div>
+        <ArticleSearch></ArticleSearch>
         <Pagination
             :currentPage="currentPage"
             :pageSize="pageSize"
@@ -33,12 +34,14 @@
 <script>
 import Article from "../components/Article.vue";
 import Pagination from "../components/Pagination.vue";
+import ArticleSearch from "../components/ArticleSearch.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         Article,
         Pagination,
+        ArticleSearch,
     },
     computed: {
         ...mapGetters([

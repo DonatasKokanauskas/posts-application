@@ -38,6 +38,8 @@ const articlesModule = {
             if (postIndex !== -1) {
                 state.articlesData.splice(postIndex, 1, editedArticle);
             }
+
+            state.articleData = editedArticle;
         },
         setCurrentPage(state, pageNumber) {
             state.currentPage = pageNumber;

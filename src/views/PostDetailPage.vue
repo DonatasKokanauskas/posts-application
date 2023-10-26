@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mt-6">
         <div class="card">
             <div class="card-content">
                 <div class="content">
@@ -21,10 +21,17 @@
                                 }}
                             </h2>
                         </div>
-
-                        <article-delete-button
-                            @click.native="showModal"
-                        ></article-delete-button>
+                        <div class="is-flex is-justify-content-center">
+                            <article-delete-button
+                                @click.native="showModal"
+                            ></article-delete-button>
+                            <button
+                                class="button ml-3"
+                                @click="showEditFormModal"
+                            >
+                                Edit article
+                            </button>
+                        </div>
                     </div>
                     <div v-else>
                         <h1 class="has-text-centered">
@@ -50,6 +57,13 @@ export default {
                 isVisible: true,
                 id: this.specificArticle.id,
                 title: this.specificArticle.title,
+            });
+        },
+        showEditFormModal() {
+            this.modalAction({
+                component: "EditForm",
+                isVisible: true,
+                id: this.specificArticle.id,
             });
         },
     },

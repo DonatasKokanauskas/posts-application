@@ -46,7 +46,13 @@
       "body": "Vivamus euismod tempus massa, non cursus velit maximus sed.",
       "authorId": 5,
       "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
+      "updated_at": "2023-10-26 ",
+      "author": {
+        "id": 5,
+        "name": "Max",
+        "created_at": "2023-05-31",
+        "updated_at": "2023-05-31"
+      }
     },
     {
       "id": 3,

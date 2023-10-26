@@ -5,7 +5,12 @@
                 Create article
             </button>
         </div>
-        <Pagination></Pagination>
+        <Pagination
+            :currentPage="currentPage"
+            :pageSize="pageSize"
+            :totalArticlesNumber="totalArticlesNumber"
+            :updatePage="updatePage"
+        ></Pagination>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
                 v-for="article in allArticles"
@@ -35,10 +40,20 @@ export default {
         Pagination,
     },
     computed: {
-        ...mapGetters(["allArticles"]),
+        ...mapGetters([
+            "allArticles",
+            "currentPage",
+            "pageSize",
+            "totalArticlesNumber",
+        ]),
     },
     methods: {
-        ...mapActions(["fetchArticlesData", "fetchAuthorsData", "modalAction"]),
+        ...mapActions([
+            "fetchArticlesData",
+            "fetchAuthorsData",
+            "modalAction",
+            "updatePage",
+        ]),
         showModal() {
             this.modalAction({
                 component: "CreateForm",

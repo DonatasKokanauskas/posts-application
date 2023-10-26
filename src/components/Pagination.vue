@@ -27,13 +27,23 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
 export default {
-    computed: {
-        ...mapGetters(["currentPage", "pageSize", "totalArticlesNumber"]),
+    props: {
+        currentPage: {
+            type: Number,
+        },
+        pageSize: {
+            type: Number,
+        },
+        totalArticlesNumber: {
+            type: Number,
+        },
+        updatePage: {
+            type: Function,
+        },
     },
+
     methods: {
-        ...mapActions(["updatePage"]),
         pageUpdate(pageNumber) {
             if (pageNumber > this.totalPages()) {
                 return;

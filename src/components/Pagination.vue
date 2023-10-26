@@ -38,9 +38,6 @@ export default {
         totalArticlesNumber: {
             type: Number,
         },
-        updatePage: {
-            type: Function,
-        },
     },
 
     methods: {
@@ -51,7 +48,7 @@ export default {
             if (pageNumber === 0) {
                 return;
             }
-            this.updatePage(pageNumber);
+            this.$emit("pageUpdate", pageNumber);
         },
         totalPages() {
             return Math.ceil(this.totalArticlesNumber / this.pageSize);
@@ -63,7 +60,10 @@ export default {
             return this.currentPage === this.totalPages() ? true : false;
         },
         goToLink(event) {
-            this.updatePage(parseInt(event.target.getAttribute("value")));
+            this.$emit(
+                "pageUpdate",
+                parseInt(event.target.getAttribute("value"))
+            );
         },
     },
 };

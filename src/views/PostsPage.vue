@@ -10,6 +10,7 @@
             :pageSize="pageSize"
             :totalArticlesNumber="totalArticlesNumber"
             :updatePage="updatePage"
+            @pageUpdate="pageUpdate"
         ></Pagination>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
@@ -59,6 +60,9 @@ export default {
                 component: "CreateForm",
                 isVisible: true,
             });
+        },
+        pageUpdate(pageNumber) {
+            this.updatePage(pageNumber);
         },
     },
     async created() {

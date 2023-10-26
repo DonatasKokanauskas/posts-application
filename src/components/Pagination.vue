@@ -30,7 +30,7 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
     computed: {
-        ...mapGetters(["currentPage", "pageSize", "totalArticles"]),
+        ...mapGetters(["currentPage", "pageSize", "totalArticlesNumber"]),
     },
     methods: {
         ...mapActions(["updatePage"]),
@@ -44,7 +44,7 @@ export default {
             this.updatePage(pageNumber);
         },
         totalPages() {
-            return Math.ceil(this.totalArticles / this.pageSize);
+            return Math.ceil(this.totalArticlesNumber / this.pageSize);
         },
         disablePreviousLink() {
             return this.currentPage === 1 ? true : false;

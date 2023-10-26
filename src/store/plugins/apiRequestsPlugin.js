@@ -7,7 +7,7 @@ const apiRequestsPlugin = (store) => {
 
             if (response.headers.get("X-Total-Count")) {
                 store.dispatch(
-                    "getTotalArticles",
+                    "getTotalArticlesNumber",
                     response.headers.get("X-Total-Count")
                 );
             }

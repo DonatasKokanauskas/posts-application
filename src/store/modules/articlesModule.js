@@ -14,7 +14,7 @@ const articlesModule = {
         articleData: null,
         currentPage: 1,
         pageSize: 3,
-        totalArticles: null,
+        totalArticlesNumber: null,
     },
     mutations: {
         setArticlesData(state, data) {
@@ -42,8 +42,8 @@ const articlesModule = {
         setCurrentPage(state, pageNumber) {
             state.currentPage = pageNumber;
         },
-        setTotalArticles(state, total) {
-            state.totalArticles = total;
+        setTotalArticlesNumber(state, total) {
+            state.totalArticlesNumber = total;
         },
     },
     actions: {
@@ -155,8 +155,8 @@ const articlesModule = {
             commit("setCurrentPage", pageNumber);
             dispatch("fetchArticlesData");
         },
-        getTotalArticles({ commit }, total) {
-            commit("setTotalArticles", total);
+        getTotalArticlesNumber({ commit }, total) {
+            commit("setTotalArticlesNumber", total);
         },
     },
     getters: {
@@ -165,7 +165,7 @@ const articlesModule = {
         visibleArticles: (state) => state.visibleArticles,
         currentPage: (state) => state.currentPage,
         pageSize: (state) => state.pageSize,
-        totalArticles: (state) => state.totalArticles,
+        totalArticlesNumber: (state) => state.totalArticlesNumber,
     },
 };
 

@@ -12,9 +12,9 @@ const articlesModule = {
     state: {
         articlesData: [],
         articleData: null,
-        currentPage: 0,
+        currentPage: 1,
         pageSize: 3,
-        visibleArticles: [],
+        totalArticles: null,
     },
     mutations: {
         setArticlesData(state, data) {
@@ -42,17 +42,22 @@ const articlesModule = {
         setCurrentPage(state, pageNumber) {
             state.currentPage = pageNumber;
         },
-        setVisibleArticles(state, visibleArticles) {
-            state.visibleArticles = visibleArticles;
+        setTotalArticles(state, total) {
+            state.totalArticles = total;
         },
     },
     actions: {
-        async fetchArticlesData({ commit, rootState, dispatch }) {
+        async fetchArticlesData({ commit, rootState, getters, dispatch }) {
             try {
                 const data = await this.fetchData(
-                    rootState.apiURL + "/posts?_expand=author"
+                    rootState.apiURL +
+                        `/posts?_expand=author&_page=${getters.currentPage}&_limit=${getters.pageSize}`
                 );
                 commit("setArticlesData", data);
+
+                if (data.length === 0 && getters.currentPage > 0) {
+                    dispatch("updatePage", getters.currentPage - 1);
+                }
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
                 showFetchErrorNotification(dispatch);
@@ -79,7 +84,7 @@ const articlesModule = {
                 );
 
                 commit("filterArticles", articleIdToDelete);
-                dispatch("updateVisibleArticles");
+                dispatch("fetchArticlesData");
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -101,7 +106,7 @@ const articlesModule = {
                 await this.postData(`${rootState.apiURL}/posts`, newArticle);
 
                 commit("pushNewArticle", newArticle);
-                dispatch("updateVisibleArticles");
+                dispatch("fetchArticlesData");
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -129,7 +134,7 @@ const articlesModule = {
                 );
 
                 commit("editArticle", editedArticle);
-                dispatch("updateVisibleArticles");
+                dispatch("fetchArticlesData");
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -148,21 +153,10 @@ const articlesModule = {
         },
         updatePage({ commit, dispatch }, pageNumber) {
             commit("setCurrentPage", pageNumber);
-            dispatch("updateVisibleArticles");
+            dispatch("fetchArticlesData");
         },
-        updateVisibleArticles({ commit, getters, dispatch }) {
-            const visibleArticles = getters.allArticles.slice(
-                getters.currentPage * getters.pageSize,
-                getters.currentPage * getters.pageSize + getters.pageSize
-            );
-            commit("setVisibleArticles", visibleArticles);
-
-            if (
-                getters.visibleArticles.length === 0 &&
-                getters.currentPage > 0
-            ) {
-                dispatch("updatePage", getters.currentPage - 1);
-            }
+        getTotalArticles({ commit }, total) {
+            commit("setTotalArticles", total);
         },
     },
     getters: {
@@ -171,6 +165,7 @@ const articlesModule = {
         visibleArticles: (state) => state.visibleArticles,
         currentPage: (state) => state.currentPage,
         pageSize: (state) => state.pageSize,
+        totalArticles: (state) => state.totalArticles,
     },
 };
 

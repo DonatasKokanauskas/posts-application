@@ -8,7 +8,7 @@
         <Pagination></Pagination>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
-                v-for="article in visibleArticles"
+                v-for="article in allArticles"
                 :key="article.id"
                 :id="article.id"
                 :title="article.title"
@@ -53,7 +53,6 @@ export default {
     },
     async created() {
         await this.fetchArticlesData();
-        this.updateVisibleArticles();
         await this.fetchAuthorsData();
     },
 };

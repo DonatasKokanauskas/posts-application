@@ -16,7 +16,7 @@
             <li v-for="index in totalPages()">
                 <a
                     class="pagination-link"
-                    :class="{ 'is-current': currentPage + 1 === index }"
+                    :class="{ 'is-current': currentPage === index }"
                     @click="goToLink"
                     :value="index"
                     >{{ index }}</a
@@ -30,30 +30,30 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
     computed: {
-        ...mapGetters(["allArticles", "currentPage", "pageSize"]),
+        ...mapGetters(["currentPage", "pageSize", "totalArticles"]),
     },
     methods: {
         ...mapActions(["updatePage"]),
         pageUpdate(pageNumber) {
-            if (pageNumber > this.totalPages() - 1) {
+            if (pageNumber > this.totalPages()) {
                 return;
             }
-            if (pageNumber === -1) {
+            if (pageNumber === 0) {
                 return;
             }
             this.updatePage(pageNumber);
         },
         totalPages() {
-            return Math.ceil(this.allArticles.length / this.pageSize);
+            return Math.ceil(this.totalArticles / this.pageSize);
         },
         disablePreviousLink() {
-            return this.currentPage === 0 ? true : false;
+            return this.currentPage === 1 ? true : false;
         },
         disableNextLink() {
-            return this.currentPage === this.totalPages() - 1 ? true : false;
+            return this.currentPage === this.totalPages() ? true : false;
         },
         goToLink(event) {
-            this.updatePage(event.target.getAttribute("value") - 1);
+            this.updatePage(parseInt(event.target.getAttribute("value")));
         },
     },
 };

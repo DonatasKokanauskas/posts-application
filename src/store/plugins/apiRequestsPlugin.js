@@ -4,6 +4,14 @@ const apiRequestsPlugin = (store) => {
     store.fetchData = async (url) => {
         try {
             const response = await axios.get(url);
+
+            if (response.headers.get("X-Total-Count")) {
+                store.dispatch(
+                    "getTotalArticles",
+                    response.headers.get("X-Total-Count")
+                );
+            }
+
             const data = response.data;
             return data;
         } catch (error) {

@@ -81,14 +81,6 @@
       "updated_at": "2023-05-31"
     },
     {
-      "id": 7,
-      "title": "Fusce Rutrum",
-      "body": "Fusce rutrum neque eget leo tempus, sed bibendum arcu lobortis.",
-      "authorId": 5,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
       "id": 8,
       "title": "Sed Consequat",
       "body": "Sed consequat nunc ut purus scelerisque cursus.",

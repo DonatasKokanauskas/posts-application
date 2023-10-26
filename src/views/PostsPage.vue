@@ -35,7 +35,7 @@ export default {
         Pagination,
     },
     computed: {
-        ...mapGetters(["allArticles", "visibleArticles"]),
+        ...mapGetters(["allArticles"]),
     },
     methods: {
         ...mapActions([

@@ -3,13 +3,13 @@
         <a
             class="pagination-previous"
             @click="pageUpdate(currentPage - 1)"
-            :disabled="showPreviousLink()"
+            :disabled="disablePreviousLink()"
             >Previous</a
         >
         <a
             class="pagination-next"
             @click="pageUpdate(currentPage + 1)"
-            :disabled="showNextLink()"
+            :disabled="disableNextLink()"
             >Next page</a
         >
         <ul class="pagination-list">
@@ -46,10 +46,10 @@ export default {
         totalPages() {
             return Math.ceil(this.allArticles.length / this.pageSize);
         },
-        showPreviousLink() {
+        disablePreviousLink() {
             return this.currentPage === 0 ? true : false;
         },
-        showNextLink() {
+        disableNextLink() {
             return this.currentPage === this.totalPages() - 1 ? true : false;
         },
         goToLink(event) {

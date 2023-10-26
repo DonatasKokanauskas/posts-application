@@ -12,6 +12,9 @@ const articlesModule = {
     state: {
         articlesData: [],
         articleData: null,
+        currentPage: 0,
+        pageSize: 3,
+        visibleArticles: [],
     },
     mutations: {
         setArticlesData(state, data) {
@@ -35,6 +38,12 @@ const articlesModule = {
             if (postIndex !== -1) {
                 state.articlesData.splice(postIndex, 1, editedArticle);
             }
+        },
+        setCurrentPage(state, pageNumber) {
+            state.currentPage = pageNumber;
+        },
+        setVisibleArticles(state, visibleArticles) {
+            state.visibleArticles = visibleArticles;
         },
     },
     actions: {
@@ -70,6 +79,7 @@ const articlesModule = {
                 );
 
                 commit("filterArticles", articleIdToDelete);
+                dispatch("updateVisibleArticles");
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -91,6 +101,7 @@ const articlesModule = {
                 await this.postData(`${rootState.apiURL}/posts`, newArticle);
 
                 commit("pushNewArticle", newArticle);
+                dispatch("updateVisibleArticles");
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -118,10 +129,12 @@ const articlesModule = {
                 );
 
                 commit("editArticle", editedArticle);
+                dispatch("updateVisibleArticles");
 
                 dispatch("notificationAction", {
                     type: "success",
                     message: "You have successfully edited the article",
+                    isVisible: true,
                 });
             } catch (error) {
                 console.log(`There was an error", ${error.message}.`);
@@ -129,13 +142,35 @@ const articlesModule = {
                     type: "error",
                     message:
                         "There was a problem editing the article. Please try again later.",
+                    isVisible: true,
                 });
+            }
+        },
+        updatePage({ commit, dispatch }, pageNumber) {
+            commit("setCurrentPage", pageNumber);
+            dispatch("updateVisibleArticles");
+        },
+        updateVisibleArticles({ commit, getters, dispatch }) {
+            const visibleArticles = getters.allArticles.slice(
+                getters.currentPage * getters.pageSize,
+                getters.currentPage * getters.pageSize + getters.pageSize
+            );
+            commit("setVisibleArticles", visibleArticles);
+
+            if (
+                getters.visibleArticles.length === 0 &&
+                getters.currentPage > 0
+            ) {
+                dispatch("updatePage", getters.currentPage - 1);
             }
         },
     },
     getters: {
         allArticles: (state) => state.articlesData,
         specificArticle: (state) => state.articleData,
+        visibleArticles: (state) => state.visibleArticles,
+        currentPage: (state) => state.currentPage,
+        pageSize: (state) => state.pageSize,
     },
 };
 

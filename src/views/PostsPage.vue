@@ -5,9 +5,10 @@
                 Create article
             </button>
         </div>
+        <Pagination></Pagination>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
-                v-for="article in allArticles"
+                v-for="article in visibleArticles"
                 :key="article.id"
                 :id="article.id"
                 :title="article.title"
@@ -25,17 +26,24 @@
 
 <script>
 import Article from "../components/Article.vue";
+import Pagination from "../components/Pagination.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         Article,
+        Pagination,
     },
     computed: {
-        ...mapGetters(["allArticles"]),
+        ...mapGetters(["allArticles", "visibleArticles"]),
     },
     methods: {
-        ...mapActions(["fetchArticlesData", "fetchAuthorsData", "modalAction"]),
+        ...mapActions([
+            "fetchArticlesData",
+            "fetchAuthorsData",
+            "modalAction",
+            "updateVisibleArticles",
+        ]),
         showModal() {
             this.modalAction({
                 component: "CreateForm",
@@ -45,6 +53,7 @@ export default {
     },
     async created() {
         await this.fetchArticlesData();
+        this.updateVisibleArticles();
         await this.fetchAuthorsData();
     },
 };

@@ -162,7 +162,6 @@ const articlesModule = {
     getters: {
         allArticles: (state) => state.articlesData,
         specificArticle: (state) => state.articleData,
-        visibleArticles: (state) => state.visibleArticles,
         currentPage: (state) => state.currentPage,
         pageSize: (state) => state.pageSize,
         totalArticlesNumber: (state) => state.totalArticlesNumber,

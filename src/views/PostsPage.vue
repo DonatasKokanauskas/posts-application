@@ -38,12 +38,7 @@ export default {
         ...mapGetters(["allArticles"]),
     },
     methods: {
-        ...mapActions([
-            "fetchArticlesData",
-            "fetchAuthorsData",
-            "modalAction",
-            "updateVisibleArticles",
-        ]),
+        ...mapActions(["fetchArticlesData", "fetchAuthorsData", "modalAction"]),
         showModal() {
             this.modalAction({
                 component: "CreateForm",

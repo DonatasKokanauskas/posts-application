@@ -46,13 +46,7 @@
       "body": "Vivamus euismod tempus massa, non cursus velit maximus sed.",
       "authorId": 5,
       "created_at": "2023-05-31",
-      "updated_at": "2023-10-26 ",
-      "author": {
-        "id": 5,
-        "name": "Max",
-        "created_at": "2023-05-31",
-        "updated_at": "2023-05-31"
-      }
+      "updated_at": "2023-05-31"
     },
     {
       "id": 3,
@@ -103,12 +97,18 @@
       "updated_at": "2023-05-31"
     },
     {
-      "id": 9,
-      "title": "Etiam Ultricies",
-      "body": "Etiam ultricies risus at nunc congue scelerisque.",
-      "authorId": 4,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
+      "id": 1698671895863,
+      "title": "fdgdfg",
+      "body": "dfgdffdg",
+      "authorId": 2,
+      "created_at": "2023-10-30 ",
+      "updated_at": "2023-10-30 ",
+      "author": {
+        "id": 2,
+        "name": "Evelyn",
+        "created_at": "2023-05-31",
+        "updated_at": "2023-05-31"
+      }
     }
   ]
 }

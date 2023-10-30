@@ -17,12 +17,28 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
     computed: {
-        ...mapGetters(["modalDataGetter"]),
+        ...mapGetters([
+            "modalDataGetter",
+            "allArticles",
+            "currentPage",
+            "totalArticlesNumber",
+        ]),
     },
     methods: {
-        ...mapActions(["deleteArticleAction", "closeModalAction"]),
+        ...mapActions([
+            "deleteArticleAction",
+            "closeModalAction",
+            "updatePage",
+            "getTotalArticlesNumber",
+        ]),
         async deleteArticle() {
+            this.getTotalArticlesNumber(this.totalArticlesNumber - 1);
+
             await this.deleteArticleAction(this.modalDataGetter.id);
+
+            if (this.allArticles.length === 0 && this.currentPage > 1) {
+                await this.updatePage(this.currentPage - 1);
+            }
 
             if (this.$router.currentRoute.fullPath !== "/") {
                 this.$router.push({ path: "/" });

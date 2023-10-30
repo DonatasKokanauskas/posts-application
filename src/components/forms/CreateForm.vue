@@ -76,7 +76,11 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["postNewArticle", "closeModalAction"]),
+        ...mapActions([
+            "postNewArticle",
+            "closeModalAction",
+            "getTotalArticlesNumber",
+        ]),
         async submitForm() {
             this.formValidation();
 
@@ -100,11 +104,14 @@ export default {
                 ),
             };
             await this.postNewArticle(newArticle);
+
+            this.getTotalArticlesNumber(this.totalArticlesNumber + 1);
+
             this.closeModalAction();
         },
     },
     computed: {
-        ...mapGetters(["allAuthors"]),
+        ...mapGetters(["allAuthors", "totalArticlesNumber"]),
     },
     mixins: [formValidationMixin],
 };

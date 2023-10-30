@@ -31,11 +31,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions([
-            "fetchArticlesData",
-            "getSearchInputValue",
-            "updatePage",
-        ]),
+        ...mapActions(["getSearchInputValue", "updatePage"]),
         async searchArticle() {
             this.getSearchInputValue(this.inputValue);
             await this.updatePage(1);

@@ -9,7 +9,7 @@
                     type="text"
                     placeholder="Find a article"
                     v-model="inputValue"
-                    v-debounce:300ms="searchArticle"
+                    v-debounce:700ms="searchArticle"
                 />
             </div>
         </div>

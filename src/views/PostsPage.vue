@@ -15,7 +15,7 @@
         ></Pagination>
         <div v-if="allArticles && allArticles.length > 0">
             <Article
-                v-for="article in allArticles.slice(0, 3)"
+                v-for="article in allArticles"
                 :key="article.id"
                 :id="article.id"
                 :title="article.title"

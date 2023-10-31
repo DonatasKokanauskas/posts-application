@@ -24,14 +24,6 @@ const articlesModule = {
         setArticleData(state, data) {
             state.articleData = data;
         },
-        pushNewArticle(state, newArticle) {
-            state.articlesData.push(newArticle);
-        },
-        filterArticles(state, articleIdToDelete) {
-            state.articlesData = state.articlesData.filter(
-                (article) => article.id !== articleIdToDelete
-            );
-        },
         editArticle(state, editedArticle) {
             const postIndex = state.articlesData.findIndex(
                 (article) => article.id === editedArticle.id
@@ -83,7 +75,7 @@ const articlesModule = {
             }
         },
         async deleteArticleAction(
-            { rootState, dispatch, commit },
+            { rootState, dispatch, getters },
             articleIdToDelete
         ) {
             try {
@@ -91,7 +83,14 @@ const articlesModule = {
                     `${rootState.apiURL}/posts/${articleIdToDelete}`
                 );
 
-                commit("filterArticles", articleIdToDelete);
+                if (
+                    getters.allArticles.length - 1 === 0 &&
+                    getters.currentPage > 1
+                ) {
+                    await dispatch("updatePage", getters.currentPage - 1);
+                } else {
+                    await dispatch("fetchArticlesData");
+                }
 
                 dispatch("notificationAction", {
                     type: "success",
@@ -108,11 +107,11 @@ const articlesModule = {
                 });
             }
         },
-        async postNewArticle({ rootState, dispatch, commit }, newArticle) {
+        async postNewArticle({ rootState, dispatch }, newArticle) {
             try {
                 await this.postData(`${rootState.apiURL}/posts`, newArticle);
 
-                commit("pushNewArticle", newArticle);
+                await dispatch("fetchArticlesData");
 
                 dispatch("notificationAction", {
                     type: "success",

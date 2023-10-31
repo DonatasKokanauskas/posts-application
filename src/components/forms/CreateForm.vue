@@ -105,8 +105,6 @@ export default {
             };
             await this.postNewArticle(newArticle);
 
-            this.getTotalArticlesNumber(this.totalArticlesNumber + 1);
-
             this.closeModalAction();
         },
     },

@@ -54,10 +54,20 @@ export default {
             return Math.ceil(this.totalArticlesNumber / this.pageSize);
         },
         disablePreviousLink() {
-            return this.currentPage === 1 ? true : false;
+            if (this.totalArticlesNumber === 0) {
+                return true;
+            }
+            if (this.currentPage === 1) {
+                return true;
+            }
         },
         disableNextLink() {
-            return this.currentPage === this.totalPages() ? true : false;
+            if (this.totalArticlesNumber === 0) {
+                return true;
+            }
+            if (this.currentPage === this.totalPages()) {
+                return true;
+            }
         },
         goToLink(event) {
             this.$emit(

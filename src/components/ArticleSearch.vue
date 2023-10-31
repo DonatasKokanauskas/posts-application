@@ -9,10 +9,8 @@
                     type="text"
                     placeholder="Find a article"
                     v-model="inputValue"
+                    v-debounce:300ms="searchArticle"
                 />
-            </div>
-            <div class="control" @click="searchArticle">
-                <a class="button is-info"> Search </a>
             </div>
         </div>
 

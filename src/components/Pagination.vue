@@ -1,27 +1,14 @@
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <a
-            class="pagination-previous"
-            @click="pageUpdate(currentPage - 1)"
-            :disabled="disablePreviousLink()"
-            >Previous</a
-        >
-        <a
-            class="pagination-next"
-            @click="pageUpdate(currentPage + 1)"
-            :disabled="disableNextLink()"
-            >Next page</a
-        >
+        <a class="pagination-previous" @click="pageUpdate(currentPage - 1)" :disabled="disablePreviousLink()">Previous</a>
+        <a class="pagination-next" @click="pageUpdate(currentPage + 1)" :disabled="disableNextLink()">Next page</a>
         <ul class="pagination-list">
-            <li v-for="index in totalPages()">
-                <a
-                    class="pagination-link"
-                    :class="{ 'is-current': currentPage === index }"
-                    @click="goToLink"
-                    :value="index"
-                    >{{ index }}</a
-                >
+
+            <li v-for="(page, index) in pages" :key="page + '-' + index">
+                <a class="pagination-link" :class="{ 'is-current': currentPage === page }" @click="goToLink"
+                    :value="page">{{ page }}</a>
             </li>
+
         </ul>
     </nav>
 </template>
@@ -39,19 +26,46 @@ export default {
             type: Number,
         },
     },
+    computed: {
+        totalPages() {
+            return Math.ceil(this.totalArticlesNumber / this.pageSize);
+        },
+        pages() {
+            const startPage = Math.max(1, this.currentPage - 2);
+            const endPage = Math.min(this.totalPages, this.currentPage + 2);
 
+            let pagesArray = [];
+
+            if (startPage > 1) {
+                pagesArray.push(1);
+                if (startPage > 2) {
+                    pagesArray.push('...');
+                }
+            }
+
+            for (let page = startPage; page <= endPage; page++) {
+                pagesArray.push(page);
+            }
+
+            if (endPage < this.totalPages) {
+                if (endPage < this.totalPages - 1) {
+                    pagesArray.push('...');
+                }
+                pagesArray.push(this.totalPages);
+            }
+
+            return pagesArray;
+        },
+    },
     methods: {
         pageUpdate(pageNumber) {
-            if (pageNumber > this.totalPages()) {
+            if (pageNumber > this.totalPages) {
                 return;
             }
             if (pageNumber === 0) {
                 return;
             }
             this.$emit("pageUpdate", pageNumber);
-        },
-        totalPages() {
-            return Math.ceil(this.totalArticlesNumber / this.pageSize);
         },
         disablePreviousLink() {
             if (this.totalArticlesNumber === 0) {
@@ -65,11 +79,12 @@ export default {
             if (this.totalArticlesNumber === 0) {
                 return true;
             }
-            if (this.currentPage === this.totalPages()) {
+            if (this.currentPage === this.totalPages) {
                 return true;
             }
         },
         goToLink(event) {
+            if (event.target.getAttribute("value") === '...') return;
             this.$emit(
                 "pageUpdate",
                 parseInt(event.target.getAttribute("value"))

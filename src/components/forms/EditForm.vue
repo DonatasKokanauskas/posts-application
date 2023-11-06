@@ -81,22 +81,24 @@ export default {
                 return;
             }
 
-            const editedArticle = {
-                id: this.specificArticle.id,
-                title: this.title.trim(),
-                body: this.content.trim(),
-                authorId: this.specificArticle.authorId,
-                created_at: this.specificArticle.created_at,
-                updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
-                author: this.allAuthors.find(
-                    (author) => author.id === this.specificArticle.authorId
-                ),
-            };
-
             if (
-                this.title.trim() !== this.specificArticle.title ||
-                this.content.trim() !== this.specificArticle.body
+                this.title.replace(/\s+/g, " ").trim() !==
+                    this.specificArticle.title.trim() ||
+                this.content.replace(/\s+/g, " ").trim() !==
+                    this.specificArticle.body.trim()
             ) {
+                const editedArticle = {
+                    id: this.specificArticle.id,
+                    title: this.title.replace(/\s+/g, " ").trim(),
+                    body: this.content.replace(/\s+/g, " ").trim(),
+                    authorId: this.specificArticle.authorId,
+                    created_at: this.specificArticle.created_at,
+                    updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
+                    author: this.allAuthors.find(
+                        (author) => author.id === this.specificArticle.authorId
+                    ),
+                };
+
                 await this.editArticle(editedArticle);
                 this.closeModalAction();
             } else {

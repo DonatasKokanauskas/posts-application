@@ -16,7 +16,7 @@ const redirectToPage404 = (to, from, next) => {
 };
 
 const routes = [
-    { path: "/", component: PostsPage },
+    { path: "/", component: PostsPage, alias: "/posts" },
     {
         path: "/postsDetailPage/:id",
         component: PostsDetailPage,

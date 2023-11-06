@@ -1,14 +1,27 @@
 <template>
     <nav class="pagination" role="navigation" aria-label="pagination">
-        <a class="pagination-previous" @click="pageUpdate(currentPage - 1)" :disabled="disablePreviousLink()">Previous</a>
-        <a class="pagination-next" @click="pageUpdate(currentPage + 1)" :disabled="disableNextLink()">Next page</a>
+        <a
+            class="pagination-previous"
+            @click="pageUpdate(currentPage - 1)"
+            :disabled="disablePreviousLink()"
+            >Previous</a
+        >
+        <a
+            class="pagination-next"
+            @click="pageUpdate(currentPage + 1)"
+            :disabled="disableNextLink()"
+            >Next page</a
+        >
         <ul class="pagination-list">
-
             <li v-for="(page, index) in pages" :key="page + '-' + index">
-                <a class="pagination-link" :class="{ 'is-current': currentPage === page }" @click="goToLink"
-                    :value="page">{{ page }}</a>
+                <a
+                    class="pagination-link"
+                    :class="{ 'is-current': currentPage === page }"
+                    @click="goToLink"
+                    :value="page"
+                    >{{ page }}</a
+                >
             </li>
-
         </ul>
     </nav>
 </template>
@@ -39,7 +52,7 @@ export default {
             if (startPage > 1) {
                 pagesArray.push(1);
                 if (startPage > 2) {
-                    pagesArray.push('...');
+                    pagesArray.push("...");
                 }
             }
 
@@ -49,7 +62,7 @@ export default {
 
             if (endPage < this.totalPages) {
                 if (endPage < this.totalPages - 1) {
-                    pagesArray.push('...');
+                    pagesArray.push("...");
                 }
                 pagesArray.push(this.totalPages);
             }
@@ -84,7 +97,7 @@ export default {
             }
         },
         goToLink(event) {
-            if (event.target.getAttribute("value") === '...') return;
+            if (event.target.getAttribute("value") === "...") return;
             this.$emit(
                 "pageUpdate",
                 parseInt(event.target.getAttribute("value"))

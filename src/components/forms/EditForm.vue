@@ -93,9 +93,15 @@ export default {
                 ),
             };
 
-            await this.editArticle(editedArticle);
-
-            this.closeModalAction();
+            if (
+                this.title.trim() !== this.specificArticle.title ||
+                this.content.trim() !== this.specificArticle.body
+            ) {
+                await this.editArticle(editedArticle);
+                this.closeModalAction();
+            } else {
+                this.errors.push("You haven't changed anything.");
+            }
         },
     },
     async created() {

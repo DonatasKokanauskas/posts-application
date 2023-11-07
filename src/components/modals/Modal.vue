@@ -18,6 +18,7 @@
 import DeleteVerification from "../DeleteVerification.vue";
 import CreateForm from "../forms/CreateForm.vue";
 import EditForm from "../forms/EditForm.vue";
+import CreateAuthorForm from "../forms/CreateAuthorForm.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -25,6 +26,7 @@ export default {
         DeleteVerification,
         CreateForm,
         EditForm,
+        CreateAuthorForm,
     },
     computed: {
         ...mapGetters(["modalDataGetter"]),

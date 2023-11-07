@@ -20,9 +20,9 @@
                 </div>
 
                 <div class="is-flex is-flex-direction-column">
-                    <article-delete-button
-                        @click.native="showModal"
-                    ></article-delete-button>
+                    <button class="button is-danger" @click="showModal">
+                        Delete article
+                    </button>
                     <button class="button mt-2" @click="showEditFormModal">
                         Edit article
                     </button>
@@ -66,6 +66,7 @@ export default {
                 isVisible: true,
                 id: this.id,
                 title: this.title,
+                target: "article",
             });
         },
         showEditFormModal() {

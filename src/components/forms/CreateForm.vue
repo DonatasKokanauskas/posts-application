@@ -76,11 +76,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions([
-            "postNewArticle",
-            "closeModalAction",
-            "getTotalArticlesNumber",
-        ]),
+        ...mapActions(["postNewArticle", "closeModalAction"]),
         async submitForm() {
             this.formValidation();
 
@@ -94,8 +90,8 @@ export default {
 
             const newArticle = {
                 id: Date.now(),
-                title: this.title.trim(),
-                body: this.content.trim(),
+                title: this.title.replace(/\s+/g, " ").trim(),
+                body: this.content.replace(/\s+/g, " ").trim(),
                 authorId: this.author,
                 created_at: new Date().toLocaleString("lt-LT").slice(0, 11),
                 updated_at: new Date().toLocaleString("lt-LT").slice(0, 11),
@@ -109,7 +105,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(["allAuthors", "totalArticlesNumber"]),
+        ...mapGetters(["allAuthors"]),
     },
     mixins: [formValidationMixin],
 };

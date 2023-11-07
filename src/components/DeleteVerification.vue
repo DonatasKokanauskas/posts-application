@@ -4,11 +4,19 @@
     >
         <h1 class="title is-4 mb-6 mr-3 ml-5 has-text-centered mt-5">
             Are you sure that you want to delete "{{ modalDataGetter.title }}"
-            article?
+            {{ modalDataGetter.target }}?
         </h1>
-        <article-delete-button
-            @click.native="deleteArticle()"
-        ></article-delete-button>
+
+        <button
+            class="button is-danger"
+            @click="
+                modalDataGetter.target === 'article'
+                    ? deleteArticle()
+                    : deleteAuthor()
+            "
+        >
+            Delete
+        </button>
     </div>
 </template>
 
@@ -17,18 +25,13 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
     computed: {
-        ...mapGetters([
-            "modalDataGetter",
-            "allArticles",
-            "currentPage",
-            "totalArticlesNumber",
-        ]),
+        ...mapGetters(["modalDataGetter"]),
     },
     methods: {
         ...mapActions([
             "deleteArticleAction",
             "closeModalAction",
-            "getTotalArticlesNumber",
+            "deleteAuthorAction",
         ]),
         async deleteArticle() {
             await this.deleteArticleAction(this.modalDataGetter.id);
@@ -36,6 +39,11 @@ export default {
             if (this.$router.currentRoute.fullPath !== "/") {
                 this.$router.push({ path: "/" });
             }
+
+            this.closeModalAction();
+        },
+        async deleteAuthor() {
+            await this.deleteAuthorAction(this.modalDataGetter.id);
 
             this.closeModalAction();
         },

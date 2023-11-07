@@ -1,27 +1,28 @@
 import Vue from "vue";
-import store from "../store/store";
 import VueRouter from "vue-router";
+import Home from "../components/Home.vue";
 import PostsPage from "../views/PostsPage.vue";
 import PostsDetailPage from "../views/PostDetailPage.vue";
 import Page404 from "../views/Page404.vue";
+import AuthorsPage from "../views/AuthorsPage.vue";
 
 Vue.use(VueRouter);
 
-const redirectToPage404 = (to, from, next) => {
-    if (store.getters.allArticles) {
-        next();
-    } else {
-        next({ path: "*" });
-    }
-};
-
 const routes = [
-    { path: "/", component: PostsPage, alias: "/posts" },
     {
-        path: "/postsDetailPage/:id",
-        component: PostsDetailPage,
-        beforeEnter: redirectToPage404,
+        path: "/",
+        component: Home,
+        alias: "/posts",
+        children: [
+            { path: "", component: PostsPage },
+            { path: "authors", component: AuthorsPage },
+            {
+                path: "/postsDetailPage/:id",
+                component: PostsDetailPage,
+            },
+        ],
     },
+
     { path: "*", component: Page404 },
 ];
 

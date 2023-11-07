@@ -21,6 +21,9 @@
         <div class="navbar-menu">
             <div class="navbar-start">
                 <router-link to="/" class="navbar-item">Home</router-link>
+                <router-link to="/authors" class="navbar-item">
+                    Authors
+                </router-link>
             </div>
         </div>
     </nav>

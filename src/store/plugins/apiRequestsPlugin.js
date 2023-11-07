@@ -4,16 +4,7 @@ const apiRequestsPlugin = (store) => {
     store.fetchData = async (url) => {
         try {
             const response = await axios.get(url);
-
-            if (response.headers.get("X-Total-Count")) {
-                store.dispatch(
-                    "getTotalArticlesNumber",
-                    parseInt(response.headers.get("X-Total-Count"))
-                );
-            }
-
-            const data = response.data;
-            return data;
+            return response;
         } catch (error) {
             throw new Error(
                 `An error occurred while trying to fetch data from the following URL: ${url}. ${error}`

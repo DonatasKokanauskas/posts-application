@@ -22,9 +22,9 @@
                             </h2>
                         </div>
                         <div class="is-flex is-justify-content-center">
-                            <article-delete-button
-                                @click.native="showModal"
-                            ></article-delete-button>
+                            <button class="button is-danger" @click="showModal">
+                                Delete article
+                            </button>
                             <button
                                 class="button ml-3"
                                 @click="showEditFormModal"

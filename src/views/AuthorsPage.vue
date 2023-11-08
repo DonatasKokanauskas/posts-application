@@ -5,6 +5,7 @@
                 Create author
             </button>
         </div>
+        <AuthorSearch></AuthorSearch>
         <Pagination
             :currentPage="currentAuthorsPage"
             :pageSize="authorsPageSize"
@@ -31,12 +32,14 @@
 <script>
 import Author from "../components/Author.vue";
 import Pagination from "../components/Pagination.vue";
+import AuthorSearch from "../components/AuthorSearch.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
         Author,
         Pagination,
+        AuthorSearch,
     },
     computed: {
         ...mapGetters([
@@ -52,7 +55,6 @@ export default {
             this.updateAuthorsPage(pageNumber);
         },
         showModal() {
-            console.log("create new author");
             this.modalAction({
                 component: "CreateAuthorForm",
                 isVisible: true,

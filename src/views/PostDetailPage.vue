@@ -57,6 +57,7 @@ export default {
                 isVisible: true,
                 id: this.specificArticle.id,
                 title: this.specificArticle.title,
+                target: "article",
             });
         },
         showEditFormModal() {

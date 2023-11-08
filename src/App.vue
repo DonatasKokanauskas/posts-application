@@ -1,8 +1,38 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <Navbar></Navbar>
+
+        <Home></Home>
+
+        <popup-notification
+            v-if="notificationGetter.isVisible"
+            :class="notificationGetter.type"
+            >{{ notificationGetter.message }}</popup-notification
+        >
+
+        <Modal></Modal>
     </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+import Navbar from "./components/Navbar.vue";
+import Home from "./components/Home.vue";
+import PopupNotification from "./components/PopupNotification.vue";
+import Modal from "./components/modals/Modal.vue";
+
+export default {
+    components: {
+        Home,
+        Navbar,
+        Modal,
+        PopupNotification,
+    },
+    computed: {
+        ...mapGetters(["notificationGetter"]),
+    },
+};
+</script>
 
 <style>
 @import "bulma/css/bulma.min.css";

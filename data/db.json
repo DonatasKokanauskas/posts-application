@@ -29,12 +29,6 @@
       "name": "Max",
       "created_at": "2023-05-31",
       "updated_at": "2023-05-31"
-    },
-    {
-      "name": "test",
-      "created_at": "2023-11-07 ",
-      "updated_at": "2023-11-07 ",
-      "id": 6
     }
   ],
   "posts": [
@@ -43,22 +37,6 @@
       "title": "Vestibulum Tincidunt",
       "body": "Vestibulum tincidunt ex vitae ex ultrices, ac eleifend lectus bibendum.",
       "authorId": 2,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
-      "id": 11,
-      "title": "Lorem Ipsum",
-      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      "authorId": 3,
-      "created_at": "2023-05-31",
-      "updated_at": "2023-05-31"
-    },
-    {
-      "id": 12,
-      "title": "Vivamus Euismod",
-      "body": "Vivamus euismod tempus massa, non cursus velit maximus sed.",
-      "authorId": 5,
       "created_at": "2023-05-31",
       "updated_at": "2023-05-31"
     },

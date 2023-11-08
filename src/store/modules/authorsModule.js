@@ -4,6 +4,7 @@ const authorsModule = {
         totalAuthorsNumber: null,
         currentAuthorsPage: 1,
         authorsPageSize: 3,
+        authorSearchInputValue: "",
     },
     mutations: {
         setAuthorsData(state, data) {
@@ -15,6 +16,17 @@ const authorsModule = {
         setCurrentAuthorsPage(state, pageNumber) {
             state.currentAuthorsPage = pageNumber;
         },
+        setEditedAuthorData(state, editedAuthor) {
+            const postIndex = state.authorsData.findIndex(
+                (author) => author.id === editedAuthor.id
+            );
+            if (postIndex !== -1) {
+                state.authorsData.splice(postIndex, 1, editedAuthor);
+            }
+        },
+        setAuthorSearchInputValue(state, inputValue) {
+            state.authorSearchInputValue = inputValue;
+        },
     },
     actions: {
         async fetchAuthorsData(
@@ -24,11 +36,17 @@ const authorsModule = {
             try {
                 const baseURL = rootState.apiURL + "/authors";
 
-                const response = await this.fetchData(
-                    !authorsPage
-                        ? baseURL
-                        : `${baseURL}?_page=${getters.currentAuthorsPage}&_limit=${getters.authorsPageSize}`
-                );
+                const url = () => {
+                    if (!authorsPage) {
+                        return baseURL;
+                    } else if (authorsPage && getters.authorSearchInputValue) {
+                        return `${baseURL}?_page=${getters.currentAuthorsPage}&_limit=${getters.authorsPageSize}&q=${getters.authorSearchInputValue}`;
+                    } else {
+                        return `${baseURL}?_page=${getters.currentAuthorsPage}&_limit=${getters.authorsPageSize}`;
+                    }
+                };
+
+                const response = await this.fetchData(url());
 
                 dispatch(
                     "getTotalAuthorsNumber",
@@ -111,12 +129,43 @@ const authorsModule = {
                 });
             }
         },
+        async editAuthor(
+            { rootState, getters, dispatch, commit },
+            editedAuthor
+        ) {
+            try {
+                await this.editData(
+                    `${rootState.apiURL}/authors/${getters.modalDataGetter.id}`,
+                    editedAuthor
+                );
+
+                commit("setEditedAuthorData", editedAuthor);
+
+                dispatch("notificationAction", {
+                    type: "success",
+                    message: "You have successfully edited the author",
+                    isVisible: true,
+                });
+            } catch (error) {
+                console.log(`There was an error: ${error.message}.`);
+                dispatch("notificationAction", {
+                    type: "error",
+                    message:
+                        "There was a problem editing the author. Please try again later.",
+                    isVisible: true,
+                });
+            }
+        },
+        getAuthorSearchInputValue({ commit }, inputValue) {
+            commit("setAuthorSearchInputValue", inputValue);
+        },
     },
     getters: {
         allAuthors: (state) => state.authorsData,
         totalAuthorsNumber: (state) => state.totalAuthorsNumber,
         currentAuthorsPage: (state) => state.currentAuthorsPage,
         authorsPageSize: (state) => state.authorsPageSize,
+        authorSearchInputValue: (state) => state.authorSearchInputValue,
     },
 };
 

@@ -10,7 +10,7 @@
 
                 <div class="is-flex">
                     <button class="button mr-3" @click="showEditFormModal">
-                        Edit article
+                        Edit author
                     </button>
                     <button class="button is-danger" @click="showModal">
                         Delete author

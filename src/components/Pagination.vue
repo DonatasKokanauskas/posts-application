@@ -81,7 +81,7 @@ export default {
             this.$emit("pageUpdate", pageNumber);
         },
         disablePreviousLink() {
-            if (this.totalArticlesNumber === 0) {
+            if (this.totalArticlesNumber === 0 || !this.totalArticlesNumber) {
                 return true;
             }
             if (this.currentPage === 1) {
@@ -89,7 +89,7 @@ export default {
             }
         },
         disableNextLink() {
-            if (this.totalArticlesNumber === 0) {
+            if (this.totalArticlesNumber === 0 || !this.totalArticlesNumber) {
                 return true;
             }
             if (this.currentPage === this.totalPages) {

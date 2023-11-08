@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-6">
+    <div class="container mt-6" v-if="dataFetched">
         <div class="card">
             <div class="card-content">
                 <div class="content">
@@ -49,6 +49,11 @@ import dateMixin from "../mixins/dateMixin.js";
 import { mapGetters, mapActions } from "vuex";
 export default {
     mixins: [dateMixin],
+    data() {
+        return {
+            dataFetched: false,
+        };
+    },
     methods: {
         ...mapActions(["fetchArticleData", "modalAction"]),
         showModal() {
@@ -74,6 +79,7 @@ export default {
     async created() {
         const postId = this.$route.params.id;
         await this.fetchArticleData(postId);
+        this.dataFetched = true;
     },
 };
 </script>

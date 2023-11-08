@@ -50,7 +50,7 @@ export default {
         async submitForm() {
             this.errors = [];
 
-            if (!this.name) {
+            if (!this.name.trim()) {
                 this.errors.push("The name field is empty.");
             }
 

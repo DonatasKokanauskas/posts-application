@@ -1,9 +1,7 @@
 <template>
     <div class="card mb-2">
         <div class="card-content">
-            <div
-                class="content is-flex is-align-items-center is-justify-content-space-between"
-            >
+            <div class="content is-flex is-align-items-center is-justify-content-space-between">
                 <div>
                     <h3>Author: {{ name }}</h3>
                 </div>

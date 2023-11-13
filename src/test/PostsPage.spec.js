@@ -4,7 +4,6 @@ import PostsPage from "../views/PostsPage.vue";
 import Article from "../components/Article.vue";
 import ArticleSearch from "../components/ArticleSearch.vue";
 import Pagination from "../components/Pagination.vue";
-import articlesModule from "../store/modules/articlesModule";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -12,8 +11,8 @@ localVue.use(Vuex);
 const mockData = [
     {
         id: 1,
-        title: "Lorem Ipsum",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        title: "title",
+        body: "content",
         authorId: 3,
         created_at: "2023-05-31",
         updated_at: "2023-05-31",
@@ -28,57 +27,71 @@ const mockData = [
 
 describe("PostsPage component", () => {
     let store;
-    let state;
-    let mutations;
-    let actions;
     let getters;
 
     beforeEach(() => {
-        state = {
-            articlesData: null,
-        };
-        mutations = {
-            setArticlesData: vi.fn((state, data) => {
-                state.articlesData = data;
-            }),
-        };
-        actions = {
-            fetchArticlesData: vi.fn().mockResolvedValue(mockData),
-            modalAction: vi.fn(),
-        };
-        getters = { allArticles: vi.fn() };
+        getters = { allArticles: vi.fn(() => mockData) };
 
         store = new Vuex.Store({
             modules: {
                 articlesModule: {
-                    state,
-                    mutations,
-                    actions,
                     getters,
                 },
             },
         });
     });
 
-    it("dispatches fetchArticlesData action", async () => {
+    it("should dispatch the fetchArticlesData function", async () => {
         const wrapper = mount(PostsPage, { store, localVue });
+        const dispatchSpy = vi.spyOn(store, "dispatch");
 
-        await wrapper.vm.$nextTick();
+        await wrapper.vm.fetchArticlesData();
 
-        expect(actions.fetchArticlesData).toHaveBeenCalled();
+        expect(dispatchSpy).toHaveBeenCalledWith("fetchArticlesData");
     });
 
-    it("renders 'ArticleSearch' component", () => {
+    it("should call the showModal function and dispatch the modalAction function to show the modal and load the CreateForm component.", async () => {
         const wrapper = mount(PostsPage, { store, localVue });
+        const dispatchSpy = vi.spyOn(store, "dispatch");
+
+        await wrapper.vm.showModal();
+
+        expect(dispatchSpy).toHaveBeenCalledWith("modalAction", {
+            component: "CreateForm",
+            isVisible: true,
+        });
+    });
+
+    it("should call the pageUpdate function and dispatch the updatePage function to update pagination's current page.", async () => {
+        const wrapper = mount(PostsPage, { store, localVue });
+        const dispatchSpy = vi.spyOn(store, "dispatch");
+
+        await wrapper.vm.pageUpdate(1);
+
+        expect(dispatchSpy).toHaveBeenCalledWith("updatePage", 1);
+    });
+
+    it("should render ArticleSearch component", () => {
+        const wrapper = mount(PostsPage, { store, localVue });
+
         const articleSearchComponent = wrapper.findComponent(ArticleSearch);
 
         expect(articleSearchComponent.exists()).toBe(true);
     });
 
-    it("renders 'Pagination' component", () => {
+    it("should render Pagination component", () => {
         const wrapper = mount(PostsPage, { store, localVue });
+
         const paginationComponent = wrapper.findComponent(Pagination);
 
         expect(paginationComponent.exists()).toBe(true);
+    });
+
+    it("should render Article component", () => {
+        const wrapper = mount(PostsPage, { store, localVue });
+
+        const articleComponent = wrapper.findComponent(Article);
+
+        expect(articleComponent.exists()).toBe(true);
     });
 });

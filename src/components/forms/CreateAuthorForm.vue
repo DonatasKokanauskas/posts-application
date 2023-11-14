@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import formValidationMixin from "../../mixins/formValidationMixin.js";
+import { mapActions } from "vuex";
 
 export default {
     data() {
@@ -72,9 +71,6 @@ export default {
 
             this.closeModalAction();
         },
-    },
-    computed: {
-        ...mapGetters(["allAuthors"]),
     },
 };
 </script>

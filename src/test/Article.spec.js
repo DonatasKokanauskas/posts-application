@@ -40,7 +40,7 @@ describe("Article component", () => {
 
             await wrapper.vm.navigateToDetailPage();
 
-            expect(mockRouter.history.current.path).toBe("/postsDetailPage/1"); //
+            expect(mockRouter.history.current.path).toBe("/postsDetailPage/1");
         });
     });
 

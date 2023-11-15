@@ -4,7 +4,7 @@ import Pagination from "../components/Pagination.vue";
 
 const localVue = createLocalVue();
 
-describe("Pagination", () => {
+describe("Pagination component", () => {
     describe("totalPages()", () => {
         it("should calculate total pages.", async () => {
             const wrapper = shallowMount(Pagination, {
@@ -20,7 +20,7 @@ describe("Pagination", () => {
     });
 
     describe("pages()", () => {
-        it("should generate correct page array when currentPage is near the start", () => {
+        it("should generate the correct page array when the currentPage is at the start.", () => {
             const wrapper = shallowMount(Pagination, {
                 localVue,
                 propsData: {
@@ -33,7 +33,7 @@ describe("Pagination", () => {
             expect(wrapper.vm.pages).toEqual([1, 2, 3, "...", 8]);
         });
 
-        it("should return correct pages array when current page is last.", () => {
+        it("should return the correct pages array when the current page is the last.", () => {
             const wrapper = shallowMount(Pagination, {
                 localVue,
                 propsData: {

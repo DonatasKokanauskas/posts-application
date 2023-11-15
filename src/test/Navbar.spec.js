@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils";
 import { describe } from "vitest";
 import Navbar from "../components/Navbar.vue";
 
-describe("Navbar", () => {
+describe("Navbar component", () => {
     describe("toggleNav()", () => {
         it("should toggles the isNavOpen data property to true when the button is clicked, changing it from false.", async () => {
             const wrapper = shallowMount(Navbar, {

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../components/Home.vue";
+import Home from "../views/Home.vue";
 import PostsPage from "../views/PostsPage.vue";
 import PostsDetailPage from "../views/PostDetailPage.vue";
 import Page404 from "../views/Page404.vue";

@@ -1,8 +1,6 @@
 <template>
     <div id="app">
-        <Navbar></Navbar>
-
-        <Home></Home>
+        <router-view></router-view>
 
         <popup-notification
             v-if="notificationGetter.isVisible"
@@ -16,15 +14,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Navbar from "./components/Navbar.vue";
-import Home from "./components/Home.vue";
 import PopupNotification from "./components/PopupNotification.vue";
 import Modal from "./components/modals/Modal.vue";
 
 export default {
     components: {
-        Home,
-        Navbar,
         Modal,
         PopupNotification,
     },
